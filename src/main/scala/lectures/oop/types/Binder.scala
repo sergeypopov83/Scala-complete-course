@@ -3,7 +3,6 @@ package lectures.oop.types
 import scala.reflect.runtime.{universe => ru}
 import ru._
 
-
 /**
   * Идем дальше.
   * Определим трейт, который будет обозначать группу методов
@@ -14,27 +13,35 @@ import ru._
 
 trait Binder3[M[_]] {
   def bind[T](item: T): M[T]
+
   def fill[T](count: Int, item: T): M[T]
+
 }
 
 class SeqBinder extends Binder3[Seq] {
   override def bind[T](item: T): Seq[T] = Seq(item)
+
   override def fill[T](count: Int, item: T): Seq[T] = Seq.fill(count)(item)
+
   def badFill(count: Int, item: (T) forSome {type T}): Seq[_] = Seq.fill(count)(item)
 }
 
 class SetBinder extends Binder3[Set] {
   override def bind[T](item: T): Set[T] = Set(item)
+
   override def fill[T](count: Int, item: T): Set[T] = Set(Seq.fill(count)(item): _*)
 }
 
 class ConcreteSetBinder[C] extends Binder3[Set] {
   def bind[T](item: T): Set[T] = Set(item)
+
   def concreteBind(item: C): Set[C] = Set(item)
+
   override def fill[T](count: Int, item: T): Set[T] = Set(Seq.fill(count)(item): _*)
 }
 
 object Binder4 {
+
   trait Builder[M[_]] {
     def build[T](item: T): M[T]
   }
@@ -54,9 +61,10 @@ object Binder4 {
 }
 
 object BinderExample extends App {
+
   import Binder4._
 
-  def withType[T:TypeTag, ClassTag](t: T): Unit = {
+  def withType[T: TypeTag, ClassTag](t: T): Unit = {
     val tt = typeOf[T]
     println(tt.typeParams)
   }

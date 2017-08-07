@@ -1,10 +1,10 @@
 package lectures.oop
 
 import org.mockito.Mockito.{when => w, _}
-
-import org.scalatest.mock.MockitoSugar
-import org.scalatest.{Matchers, GivenWhenThen, BeforeAndAfterAll, WordSpec}
+import org.scalatest.mockito.MockitoSugar
+import org.scalatest.{BeforeAndAfterAll, GivenWhenThen, Matchers, WordSpec}
 import org.mockito.Matchers.{eq => exact, _}
+import org.scalatest.prop.PropertyChecks
 /**
   * This test tests nothing and is intended only to show the power of Mockito mocks
   *
@@ -37,7 +37,7 @@ class BSTTestWithMocks extends WordSpec with Matchers with MockitoSugar with Bef
         w(bstSUT.find(10)).thenReturn(Some(bstSUT))
 
         bstSUT.find(1) shouldBe None
-        bstSUT.find(10) should be === Some(bstSUT)
+        bstSUT.find(10) shouldBe Some(bstSUT)
         info("verify that we have executed find method for at least once")
         verify(bstSUT, atLeastOnce()).find(any[Int]()) // never, atLeast, calls..  are also available
       }

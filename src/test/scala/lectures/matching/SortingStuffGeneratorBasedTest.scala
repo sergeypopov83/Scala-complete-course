@@ -32,12 +32,12 @@ import scala.util.Random
 class SortingStuffGeneratorBasedTest extends WordSpec with Matchers with PropertyChecks {
 
   val cheepWatchGen: Gen[Watches] = Gen.zip(Gen.choose(0f, 1000f), Gen.alphaStr).map(w => Watches(w._2, w._1))
-  val bookGenerator = Gen.alphaStr.map(name => Book(name, Random.nextBoolean()))
-  val interestingBookGen = bookGenerator.filter(_.isInteresting)
+  val bookGenerator: Gen[Book] = Gen.alphaStr.map(name => Book(name, Random.nextBoolean()))
+  val interestingBookGen: Gen[Book] = bookGenerator.filter(_.isInteresting)
 
   // Override configuration if you need
-  implicit override val generatorDrivenConfig =
-    PropertyCheckConfig(minSize = 10, maxSize = 20)
+  implicit override val generatorDrivenConfig: PropertyCheckConfiguration =
+    PropertyCheckConfiguration(minSize = 10)
 
   val get: AfterWord = new AfterWord("have")
 
