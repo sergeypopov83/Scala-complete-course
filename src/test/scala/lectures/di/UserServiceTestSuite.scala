@@ -6,6 +6,7 @@ object UserServiceTestSuite {
 
   val createTable =
     """ CREATE TABLE USERS(
+    ID   NUMBER NOT NULL,
     NAME  TEXT  NOT NULL,
     PWD   CHAR(50)  NOT NULL);"""
 
