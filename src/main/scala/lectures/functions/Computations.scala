@@ -37,7 +37,7 @@ object Computation extends App with Data {
   *
   * Раскомментируйте последнюю строчку
   *
-  * Какой тип имеет partiallyAppliedCurriedFunction - ?
+  * Какой тип имеет partiallyAppliedCurriedFunction - (Array[String]) => Array[String]
   */
 object CurriedComputation extends App with Data {
 
