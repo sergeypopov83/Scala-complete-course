@@ -1,5 +1,7 @@
 package lectures.functions
 
+import sun.net.www.protocol.http.HttpURLConnection
+
 /**
   * Представим себе, как бы мог выглядеть API для работы, например, с БД
   * Строить методы этого API будем через композицию уже определенных методов.
@@ -37,11 +39,22 @@ class SQLAPI(resource: String) {
 
   }
 
-  private def logParameter[T](prm: T): T  = ???
+  private def logParameter[T](prm: T): T  = {
+    println (prm)
+    prm
+  }
 
   val connection = (resource: String) => Connection(resource)
 
-  def execute(sql: String): String = ??? // use resource from constructor
+  def execute(sql: String): String = (
+    (
+      logParameter[String] _ andThen
+      connection andThen
+      openConnection
+    ) (resource) compose logParameter[String] _
+      andThen logParameter[String] _
+    ) (sql)
+
 
 
   def openConnection(connection: Connection): (String) => String =
@@ -54,5 +67,12 @@ class SQLAPI(resource: String) {
 object SQLCheck extends App {
 
   new SQLAPI("some DB").execute("some SQL")
+  /*val sql = new SQLAPI ("some DB")
+  sql.logParameter("someDB")
+  val con = sql.connection("someDB")
+  sql.logParameter("some SQL")
+  val res = sql.openConnection(con)("some SQL")
+  sql.logParameter(res)*/
+
 
 }
