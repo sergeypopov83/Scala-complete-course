@@ -45,12 +45,6 @@ class SQLAPI(resource: String) {
   val connection = (resource: String) => Connection(resource)
 
   def execute(sql: String): String = {
-   // val c =  logParameter[String]_ andThen connection
-    //var d = c(resource)
-
-    //logParameter(sql)
-    //val k = (logParameter[String]_ andThen connection andThen openConnection)(resource)
-   // val p = logParameter[String]_ andThen (logParameter[String]_ andThen connection andThen openConnection)(resource)
 
     (((logParameter[String]_ andThen connection andThen openConnection)(resource) compose logParameter[String] ) andThen logParameter[String])(sql)
 
