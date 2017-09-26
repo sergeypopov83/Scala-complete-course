@@ -5,7 +5,12 @@ import java.sql.{Connection, DriverManager}
 import lectures.di.UserService
 import lectures.functions.{LPCredentials, LPUser, User}
 
-class NaiveUserServiceImpl extends UserService {
+class NaiveUserServiceProgram extends UserService {
+
+  def run: Option[User] = {
+    userByCredentials("Frosya", "qwerty3")
+  }
+
   override def updateUserPwd(id: String, pwd: String): Unit = {
     Class.forName("org.sqlite.JDBC")
     val connection = DriverManager.getConnection("jdbc:sqlite:memory")

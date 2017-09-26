@@ -8,7 +8,7 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 
 class ReaderDIUserServiceTest extends WordSpec with Matchers with BeforeAndAfterAll {
 
-  private val cl = Class.forName("org.sqlite.JDBC")
+  Class.forName("org.sqlite.JDBC")
   private val connection = DriverManager.getConnection("jdbc:sqlite:memory")
   connection.setAutoCommit(false)
 
@@ -18,21 +18,19 @@ class ReaderDIUserServiceTest extends WordSpec with Matchers with BeforeAndAfter
 
   "Reader program" should {
     "should not find any user" in new ReaderUserServiceTestSuite(connection)({
-      val usi = new UserServiceImpl(connection)
       val configuration = ConfigurationImpl(Map.empty[String, String])
-      val programConfig = UserServiceProgramDepndencies(usi, configuration)
+      val programConfig = UserServiceProgramDepsImpl(connection, configuration)
       val r = UserServiceReaderDIProgramImpl()
       val res: Option[User] = r.run(programConfig)
       res shouldBe None
     })
 
     "find correct user" in new ReaderUserServiceTestSuite(connection) ({
-      val usi = new UserServiceImpl(connection)
       val configuration = ConfigurationImpl(Map.empty[String, String])
       configuration.setAttribute("user", "Frosya")
       configuration.setAttribute("password", "qwerty3")
       // Именно в этом месте происходит иньекция зависимостей в наше небольшое приложение
-      val programConfig = UserServiceProgramDepndencies(usi, configuration)
+      val programConfig = UserServiceProgramDepsImpl(connection, configuration)
       val r = UserServiceReaderDIProgramImpl()
       val Some(res) = r.run(programConfig)
       res.id shouldBe 22

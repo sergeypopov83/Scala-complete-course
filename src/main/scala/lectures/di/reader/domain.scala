@@ -6,7 +6,7 @@ import cats.Id
 import cats._
 import cats.arrow.FunctionK
 import cats.data.{Kleisli, Reader}
-import lectures.di.{UserService, UserServiceProgramDeps}
+import lectures.di.{ConnectionManager, UserService, UserServiceProgramDeps}
 import lectures.di.reader.DIDomain.ReaderTOption
 import lectures.functions.User
 
@@ -30,7 +30,8 @@ object ReaderTOption {
 }
 
 object ConnectionManagerMonadic {
-  def connection: Reader[UserServiceProgramDeps, Connection] = ???
+  def connection: Reader[UserServiceProgramDeps, ConnectionManager] = ???
+
 }
 
 object ConfigurationMonadic {

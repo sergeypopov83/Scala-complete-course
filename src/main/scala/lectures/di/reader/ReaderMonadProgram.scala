@@ -1,15 +1,19 @@
 package lectures.di.reader
 
+import java.sql.Connection
+
 import cats.Id
-import cats.arrow.FunctionK
 import cats.data.Reader
 import cats.implicits._
-import ReaderTOption._
-import DIDomain.ReaderTOption
-import lectures.di.{Configuration, UserService, UserServiceProgramDeps}
+import lectures.di.reader.DIDomain.ReaderTOption
+import lectures.di.{Configuration, UserServiceImpl, UserServiceProgramDeps}
 import lectures.functions.{AnonymousUser, User}
 
-case class UserServiceProgramDepndencies(us: UserService, configuration: Configuration) extends UserServiceProgramDeps
+
+case class UserServiceProgramDepsImpl(connection: Connection, configuration: Configuration) extends UserServiceProgramDeps {
+  // lazy val connectionManager = ConnectionManagerImpl(configuration)
+  lazy val us = new UserServiceImpl(connection)
+}
 
 object UserServiceReaderDIProgramImpl {
   def apply(): ReaderTOption[UserServiceProgramDeps, User] =
