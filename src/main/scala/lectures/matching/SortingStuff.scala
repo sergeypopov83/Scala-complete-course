@@ -68,29 +68,29 @@ object SortingStuff extends App {
                       junk: List[Stuff] = Nil)
 
    def sortJunk(stuff: List[Stuff]): StuffBox = ??? ///sort(stuff, StuffBox())
-  // // Замените знаки вопроса подходящим кодом
-  // // Поправьте логику метода
-  //  private def sort(stuff: List[Stuff], stuffBox: StuffBox): StuffBox = ??? {
-  //    case _ => stuffBox
-  //    case ??? =>
-  //      val newBox = putStuffInRightBox(item, stuffBox)
-  //      sort(rest, newBox)
-  //
-  //  }
-  //  // Метод должен положить вещь в правильную коробку
-  //  private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = ??? {
-  //    case ??? => stuffBox.copy(watches = it :: stuffBox.watches)
-  //    case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
-  //    case ??? => stuffBox.copy(boots = it :: stuffBox.boots)
-  //  }
-  //
-  //  def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
-  //    case ??? if junk.contains(Knife) => true
-  //    case _ => false
-  //  }
+   // Замените знаки вопроса подходящим кодом
+   // Поправьте логику метода
+//    private def sort(stuff: List[Stuff], stuffBox: StuffBox): StuffBox = ??? {
+//      case _ => stuffBox
+//      case ??? =>
+//        val newBox = putStuffInRightBox(item, stuffBox)
+//        sort(rest, newBox)
+//
+//    }
+    // Метод должен положить вещь в правильную коробку
+    private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = ??? {
+      case ??? => stuffBox.copy(watches = it :: stuffBox.watches)
+      case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
+      case ??? => stuffBox.copy(boots = it :: stuffBox.boots)
+    }
 
-  // //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
-  // val knifeIsInJunk = (???) (stuff)
+//    def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
+//      case ??? if junk.contains(Knife) => true
+//      case _ => false
+//    }
 
-  //print(s"Is knife in a junk? - $knifeIsInJunk")
+   //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
+   val knifeIsInJunk = (???) (stuff)
+
+  print(s"Is knife in a junk? - $knifeIsInJunk")
 }
