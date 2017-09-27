@@ -41,12 +41,12 @@ object Computation extends App with Data {
 object CurriedComputation extends App with Data {
 
   def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] = {
+    Thread.sleep(10)
     val filterArray = filterData.split(" ")
+    Thread.sleep(100)
     dataProducer.filter(dataItem => filterArray.contains(dataItem))
   }
-  Thread.sleep(10)
   val partiallyAppliedCurriedFunction = curriedComputation(filterData)(_)
-  Thread.sleep(100)
   val result = partiallyAppliedCurriedFunction(dataArray)
   result.foreach(println)
 }
@@ -59,15 +59,14 @@ object CurriedComputation extends App with Data {
 object FunctionalComputation extends App with Data {
 
     def functionalComputation(filterData: String): (Array[String]) => Array[String] = {
-    (st: Array[String]) => {
+      Thread.sleep(10)
       val filterArray = filterData.split(" ")
+    (st: Array[String]) => {
+      Thread.sleep(100)
       st.filter(s => filterArray.contains(s))
     }
-
   }
-  Thread.sleep(10)
   val filterApplied = functionalComputation(filterData)
-  Thread.sleep(100)
   val result = filterApplied(dataArray)
   result.foreach(println)
 }
