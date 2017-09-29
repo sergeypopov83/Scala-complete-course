@@ -67,12 +67,5 @@ class SQLAPI(resource: String) {
 object SQLCheck extends App {
 
   new SQLAPI("some DB").execute("some SQL")
-  /*val sql = new SQLAPI ("some DB")
-  sql.logParameter("someDB")
-  val con = sql.connection("someDB")
-  sql.logParameter("some SQL")
-  val res = sql.openConnection(con)("some SQL")
-  sql.logParameter(res)*/
-
 
 }
