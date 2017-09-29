@@ -78,11 +78,11 @@ object SortingStuff extends App {
 //
 //    }
     // Метод должен положить вещь в правильную коробку
-    private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = ??? {
+    private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = ??? /*{
       case ??? => stuffBox.copy(watches = it :: stuffBox.watches)
       case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
       case ??? => stuffBox.copy(boots = it :: stuffBox.boots)
-    }
+    }*/
 
 //    def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
 //      case ??? if junk.contains(Knife) => true
@@ -90,7 +90,7 @@ object SortingStuff extends App {
 //    }
 
    //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
-   val knifeIsInJunk = (???) (stuff)
+//   val knifeIsInJunk = (???) (stuff)
 
-  print(s"Is knife in a junk? - $knifeIsInJunk")
+  //print(s"Is knife in a junk? - $knifeIsInJunk")
 }
