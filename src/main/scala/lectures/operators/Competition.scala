@@ -14,17 +14,19 @@ package lectures.operators
   * Если результат встречи >0, то finalResult увеличивается на единицу
   * Если <0, уменьшается
   *
-  * В итоге надо напечатать:
-  * "Наша взяла", если наших побед больше, т.е. finalResult > 0
-  * "Продули", если победили приезжие
-  * "Победила дружба" в случае ничьи
+  * В итоге надо
+  * исправить ошибки компиляции
+  * напечатать:
+  * * "Наша взяла", если наших побед больше, т.е. finalResult > 0
+  * * "Продули", если победили приезжие
+  * * "Победила дружба" в случае ничьи
   *
   * Для решения задачи раскомментируйте тело объекта Competition
   */
 
 object Competition extends App {
 
-  val locals = Map("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> "2", "Alexander" -> 4l)
+  val locals = Map("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> "2", "Alexander" -> 4D)
   val foreigners = Map[String, Int]("John" -> 3, "James" -> 1, "Tom" -> 2, "Dick" -> 5, "Eric" -> 6)
 
   //  val results = for (l <- locals;

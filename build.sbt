@@ -21,9 +21,13 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"))
 
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
+
 libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.2"
 
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.2"
+
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-MF"
 
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.7.2"
 
@@ -38,3 +42,13 @@ libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-actor" % "2.5.3",
   "com.typesafe.akka" %% "akka-remote" % "2.5.3",
   "com.typesafe.akka" %% "akka-slf4j" % "2.5.3"
 )
+
+libraryDependencies += "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
+
+libraryDependencies += "com.softwaremill.macwire" %% "macrosakka" % "2.3.0" % "provided"
+
+libraryDependencies += "com.softwaremill.macwire" %% "util" % "2.3.0"
+
+libraryDependencies += "com.softwaremill.macwire" %% "proxy" % "2.3.0"
+
+parallelExecution in ThisBuild := false
