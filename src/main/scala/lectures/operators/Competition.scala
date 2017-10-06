@@ -36,11 +36,6 @@ object Competition extends App {
     (localName+" vs "+foreignName) -> (localValue - foreignValue)
   }
 
-  /*var finalResult = 0
-  for (r <- results) {
-    if (???) finalResult = finalResult + 1
-    else ???
-  }*/
   val finalResult = results.map{x =>
     if (x._2 > 0) 1
     else if (x._2 == 0 ) 0
