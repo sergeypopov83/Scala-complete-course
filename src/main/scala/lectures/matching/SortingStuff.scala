@@ -67,7 +67,7 @@ object SortingStuff extends App {
                       boots: List[Boots] = Nil,
                       junk: List[Stuff] = Nil)
 
-  def sortJunk(stuff: List[Stuff]): StuffBox = sort(stuff, StuffBox()) ///sort(stuff, StuffBox())
+  def sortJunk(stuff: List[Stuff]): StuffBox = sort(stuff, StuffBox())
    // Замените знаки вопроса подходящим кодом
    // Поправьте логику метода
     private def sort(stuff: List[Stuff], stuffBox: StuffBox): StuffBox = stuff match{
