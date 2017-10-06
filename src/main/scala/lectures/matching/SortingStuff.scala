@@ -85,13 +85,12 @@ object SortingStuff extends App {
       case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
     }
 
-    def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
-      case StuffBox (_,_,_,junk) if junk.contains(Knife) => true
-      case _ => false
+    val findMyKnife: PartialFunction[StuffBox, Boolean] = {
+      case StuffBox(_, _, _, junk) => junk.contains(Knife)
     }
 
-   //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
-   val knifeIsInJunk = (findMyKnife _ compose sortJunk)(stuff)
+    //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
+    val knifeIsInJunk = (findMyKnife compose sortJunk)(stuff)
 
-  print(s"Is knife in a junk? - $knifeIsInJunk")
+    print(s"Is knife in a junk? - $knifeIsInJunk")
 }
