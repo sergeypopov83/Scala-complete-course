@@ -10,17 +10,15 @@ package lectures.functions
   *
   */
 object Fibonacci {
-
-  def main (args: Array[String]): Unit ={
-    def fibs(num: Int): Int = {
-      if (num <= 0) {
-        throw new RuntimeException
-      }
-      if (num == 1) 1
-      else if (num == 2) 1
-      else fibs(num - 1) + fibs(num - 2)
+  def fibs(num: Int): Int = {
+    if (num <= 0) {
+      throw new RuntimeException
     }
-
+    if (num == 1) 1
+    else if (num == 2) 1
+    else fibs(num - 1) + fibs(num - 2)
+  }
+  def main (args: Array[String]): Unit ={
     println(fibs(9))
     //println(fibs(1000))
   }
