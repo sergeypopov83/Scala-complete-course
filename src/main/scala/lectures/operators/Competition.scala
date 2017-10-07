@@ -22,7 +22,7 @@ package lectures.operators
   * Для решения задачи раскомментируйте тело объекта Competition
   */
 
-object Competition extends App {
+object Competition  {
 
   val locals = Map[String, Int]("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> 2, "Alexander" -> 4)
   val foreigners = Map[String, Int]("John" -> 3, "James" -> 1, "Tom" -> 2, "Dick" -> 5, "Eric" -> 6)
@@ -42,10 +42,11 @@ object Competition extends App {
     else -1
   }.sum
 
-
-  if (finalResult > 0)
-    print ("Наша взяла")
-  else if (finalResult == 0)
-    print("Победила дружба")
-  else print ("Продули")
+  def main (args: Array[String]): Unit ={
+    if (finalResult > 0)
+      print ("Наша взяла")
+    else if (finalResult == 0)
+      print("Победила дружба")
+    else print ("Продули")
+  }
 }
