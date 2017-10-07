@@ -39,7 +39,7 @@ object Computation extends App with Data {
   *
   * Какой тип имеет partiallyAppliedCurriedFunction - (Array[String]) => Array[String]
   */
-object CurriedComputation extends App with Data {
+object CurriedComputation extends Data {
 
   def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] =
     Computation.computation(filterData, dataProducer)
@@ -47,8 +47,10 @@ object CurriedComputation extends App with Data {
 
   val partiallyAppliedCurriedFunction = curriedComputation (filterData) _
 
-  val result = partiallyAppliedCurriedFunction(dataArray)
-  result.foreach(println)
+  def main (args: Array[String]){
+    val result = partiallyAppliedCurriedFunction(dataArray)
+    result.foreach(println)
+  }
 }
 
 /**
@@ -56,7 +58,7 @@ object CurriedComputation extends App with Data {
   *
   * При этом постарайтесь минимизировать количество разбиений строки filterData на отдельные слова.
   */
-object FunctionalComputation extends App with Data {
+object FunctionalComputation extends Data {
 
   val functionalComputation: String => (Array[String] => Array[String]) = filtDt => {
     dataArray => filtDt.split(" ").filter(dataItem => dataArray.contains (dataItem)
@@ -65,7 +67,9 @@ object FunctionalComputation extends App with Data {
 
   val filterApplied = functionalComputation(filterData)
 
-  val result = filterApplied(dataArray)
-  println ("Functional computation")
-  result.foreach(println)
+  def main (args: Array[String]): Unit ={
+    val result = filterApplied(dataArray)
+    println ("Functional computation")
+    result.foreach(println)
+  }
 }
