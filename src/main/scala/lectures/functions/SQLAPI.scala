@@ -48,7 +48,7 @@ class SQLAPI(resource: String, println: (Any)=>Unit = println) {
 
   def execute(sql: String): String = (
     (
-      logParameter[String] _ andThen
+      logParameter[String] _  andThen
       connection andThen
       openConnection
     ) (resource) compose logParameter[String] _
