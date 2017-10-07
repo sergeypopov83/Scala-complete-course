@@ -12,7 +12,7 @@ package lectures.functions
 object Fibonacci {
   def fibs(num: Int): Int = {
     if (num <= 0) {
-      throw new RuntimeException
+      throw new RuntimeException ("Negative number of fibonacci")
     }
     if (num == 1) 1
     else if (num == 2) 1
