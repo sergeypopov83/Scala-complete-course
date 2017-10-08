@@ -1,5 +1,6 @@
 package lectures.collections
 
+import scala.annotation.tailrec
 import scala.util.Random
 
 /**
@@ -50,22 +51,32 @@ object ConnectionProducer extends FailUtil {
 
 case class Connection(resource: Resource) {
   private val defaultResult = "something went wrong!"
-
-  //ConnectionProducer.result(this)
-  def result(): String = ???
+  val res = ConnectionProducer.result(this)
+  def result(): String = Option(res).getOrElse(defaultResult)
 }
 
 case class Resource(name: String)
 
 object OptionVsNPE extends App {
+  def getConnection(resourse: Resource): Connection = {
+    val con = Option(ConnectionProducer.produce(resourse))
+    con.getOrElse(getConnection(resourse))
+  }
 
   def businessLogic: String = try {
-    // ResourceProducer
-    val result: String = ???
+    val resource = ResourceProducer.produce
+    if (resource == null) throw new ResourceException
+
+    val connection = getConnection(resource)
+
+    val result: String = connection.result()
     println(result)
     result
   } catch {
-    case e: ResourceException => ???
+    case e: ResourceException =>
+      println(e)
+      println("Try again with new resource")
+      businessLogic
   }
 
   businessLogic
