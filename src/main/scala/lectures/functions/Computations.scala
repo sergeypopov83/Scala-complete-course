@@ -13,7 +13,7 @@ trait Data {
   val dataArray = "Клара Цеткин обожала Карла Маркса".split(" ")
 }
 
-object Computation extends App with Data {
+object Computation extends Data {
 
   def computation(filterData: String, dataProducer: Array[String]): Array[String] = {
     //EMULATE HEAVY LOAD
@@ -39,46 +39,26 @@ object Computation extends App with Data {
   *
   * Какой тип имеет partiallyAppliedCurriedFunction - ?
   */
-object CurriedComputation extends App with Data {
+object CurriedComputation extends Data {
 
-  def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] =  {
-    Thread.sleep(10)
+  def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] = Computation.computation(filterData, dataProducer)
 
-    val filterArray = filterData.split(" ")
-
-    Thread.sleep(100)
-
-    dataProducer.filter(dataItem => filterArray.contains(dataItem))
-  }
-
-  val partiallyAppliedCurriedFunction = curriedComputation(filterData)_
+  val partiallyAppliedCurriedFunction = curriedComputation(filterData) _
 
   val result = partiallyAppliedCurriedFunction(dataArray)
   result.foreach(println)
 }
-
 /**
   * Допишите реализации методов так, что бы результат совпадал с предыдущими.
   *
   * При этом постарайтесь минимизировать количество разбиений строки filterData на отдельные слова.
   */
-object FunctionalComputation extends App with Data {
+object FunctionalComputation extends Data {
 
-  def functionalComputation(filterData: String): Array[String] => Array[String] = {
-
-    Thread.sleep(10)
-
-    val filterArray = filterData.split(" ")
-
-    s: Array[String] => {
-      Thread.sleep(100)
-      s.filter(s => filterArray.contains(s))
-    }
-  }
+  def functionalComputation(filterData: String): (Array[String]) => Array[String] = Computation.computation _ curried filterData
 
   val filterApplied = functionalComputation(filterData)
 
   val result = filterApplied(dataArray)
-
   result.foreach(println)
 }
