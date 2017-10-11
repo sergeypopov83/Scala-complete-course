@@ -14,33 +14,35 @@ package lectures.operators
   * Если результат встречи >0, то finalResult увеличивается на единицу
   * Если <0, уменьшается
   *
-  * В итоге надо
-  * исправить ошибки компиляции
-  * напечатать:
-  * * "Наша взяла", если наших побед больше, т.е. finalResult > 0
-  * * "Продули", если победили приезжие
-  * * "Победила дружба" в случае ничьи
+  * В итоге надо напечатать:
+  * "Наша взяла", если наших побед больше, т.е. finalResult > 0
+  * "Продули", если победили приезжие
+  * "Победила дружба" в случае ничьи
   *
   * Для решения задачи раскомментируйте тело объекта Competition
   */
 
 object Competition extends App {
 
-  val locals = Map("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> "2", "Alexander" -> 4D)
+  val locals = Map[String, Long]("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> 2, "Alexander" -> 4l)
   val foreigners = Map[String, Int]("John" -> 3, "James" -> 1, "Tom" -> 2, "Dick" -> 5, "Eric" -> 6)
 
-  //  val results = for (l <- locals;
-  //                     ???) {
-  //    val localName = l._1
-  //    val localValue = l._2
-  //    ???
-  //  }
+  val results = for (l <- locals;
+                     f <- foreigners) yield {
+    val localName: String = l._1
+    val localVal: Long = l._2
+    val forName: String = f._1
+    val forVal: Long = f._2
+    (s"$localName vs $forName", localVal - forVal)
 
-  //  var finalResult = 0
-  //  for (r <- results) {
-  //    if (???) finalResult = finalResult + 1
-  //    else ???
-  //  }
+  }
 
-  print("Победила дружба")
+  var finalResult = 0
+  for (r <- results) {
+    if (r._2 > 0) finalResult = finalResult + 1
+    else ()
+  }
+  if (finalResult > 0) print(s"Наша взяла с отрывом $finalResult")
+  else if (finalResult == 0) print("Победила дружба")
+  else print("Наши продули")
 }
