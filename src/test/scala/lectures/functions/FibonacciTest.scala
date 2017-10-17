@@ -13,9 +13,15 @@ class FibonacciTest extends FlatSpec with Matchers {
     res should be(8)
   }
 
-  "Fibbonaci" should "throw SOFE if passed negative value" in {
+  "Fibbonaci" should "throw SOFE if passed a negative value" in {
     an[StackOverflowError] should be thrownBy{
       Fibonacci.fibs(-1)
+    }
+  }
+
+  "Fibbonaci" should "throw SOFE if passed a zero value" in {
+    an[StackOverflowError] should be thrownBy{
+      Fibonacci.fibs(0)
     }
   }
 }
