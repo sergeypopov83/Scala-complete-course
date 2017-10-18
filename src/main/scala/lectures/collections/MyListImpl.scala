@@ -38,7 +38,7 @@ object MyListImpl extends App {
     def filter(f: (Int) => Boolean) =
       flatMap{ inp => MyList(
           if (f(inp)) List(inp)
-          else List[Int]()
+          else List.empty[Int]
         )
       }
   }
