@@ -12,13 +12,13 @@ package lectures.functions
 object Fibonacci {
   def fibs(num: Int): Int = {
     if (num <= 0) {
-      throw new RuntimeException ("Negative number of fibonacci")
-    }
-    if (num == 1) 1
+      throw new RuntimeException("Negative number of fibonacci")
+    } else if (num == 1) 1
     else if (num == 2) 1
     else fibs(num - 1) + fibs(num - 2)
   }
-  def main (args: Array[String]): Unit ={
+
+  def main(args: Array[String]): Unit = {
     println(fibs(9))
     //println(fibs(1000))
   }
