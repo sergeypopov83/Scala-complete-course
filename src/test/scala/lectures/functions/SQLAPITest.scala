@@ -2,7 +2,7 @@ package lectures.functions
 import org.scalatest._
 import scala.collection.mutable.Queue
 class SQLAPITest extends FlatSpec with Matchers{
-  trait dialog {
+  trait Dialog {
     val dbName = "Name of dataBase"
     val request = "some SQL request"
     val success = "SQL has been executed. Congrats!"
@@ -13,7 +13,7 @@ class SQLAPITest extends FlatSpec with Matchers{
     }
   }
 
-  "SQLAPI" should "generate correct dialog" in new dialog {
+  "SQLAPI" should "generate correct dialog" in new Dialog {
 
     new SQLAPI(dbName, collectLogs).execute(request)
     logs.dequeue() shouldBe dbName
