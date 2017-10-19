@@ -12,11 +12,13 @@ import scala.annotation.tailrec
   * * * * параметр acc - аккумулятор посчитанных значений
   *
   */
-object Fibonacci2 extends App {
+object Fibonacci2 {
 
-  def fibs2(num: Int) =
+  def fibs2(num: Int) = {
+    if (num <=0) throw new RuntimeException ("Negative number of fibonacci")
     if (num <= 3) Array(1, 1, 2)(num - 1)
     else fibsImpl(num, Array(1, 1, 2))(num - 1)
+  }
 
   @tailrec
   private def fibsImpl(num: Int, acc: Array[Int]): Array[Int] = {
@@ -28,7 +30,8 @@ object Fibonacci2 extends App {
       acc
     }
   }
-
-  println(fibs2(16))
-  println(fibs2(1000))
+  def main (args: Array[String]): Unit ={
+    println(fibs2(16))
+    println(fibs2(1000))
+  }
 }

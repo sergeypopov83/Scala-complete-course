@@ -27,7 +27,7 @@ import sun.net.www.protocol.http.HttpURLConnection
   *
   *
   */
-class SQLAPI(resource: String) {
+class SQLAPI(resource: String, println: (Any)=>Unit = println) {
 
   case class Connection(resource: String, opened: Boolean = false) {
 

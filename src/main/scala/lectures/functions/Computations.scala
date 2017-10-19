@@ -47,8 +47,10 @@ object CurriedComputation extends Data {
 
   val partiallyAppliedCurriedFunction = curriedComputation (filterData) _
 
-  val result = partiallyAppliedCurriedFunction(dataArray)
-  result.foreach(println)
+  def main (args: Array[String]){
+    val result = partiallyAppliedCurriedFunction(dataArray)
+    result.foreach(println)
+  }
 }
 
 /**
@@ -65,7 +67,9 @@ object FunctionalComputation extends Data {
 
   val filterApplied = functionalComputation(filterData)
 
-  val result = filterApplied(dataArray)
-  println ("Functional computation")
-  result.foreach(println)
+  def main (args: Array[String]): Unit ={
+    val result = filterApplied(dataArray)
+    println ("Functional computation")
+    result.foreach(println)
+  }
 }

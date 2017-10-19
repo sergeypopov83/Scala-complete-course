@@ -9,17 +9,19 @@ package lectures.functions
   * строчку с вычислением 1000-ого числа фибоначчи
   *
   */
-object Fibonacci extends App {
-
-  // Task 2
+object Fibonacci {
   def fibs(num: Int): Int = {
-    if (num == 1) 1
+    if (num <= 0) {
+      throw new RuntimeException("Negative number of fibonacci")
+    } else if (num == 1) 1
     else if (num == 2) 1
     else fibs(num - 1) + fibs(num - 2)
   }
 
-  println(fibs(9))
-  //println(fibs(1000))
+  def main(args: Array[String]): Unit = {
+    println(fibs(9))
+    //println(fibs(1000))
+  }
 }
 
 
