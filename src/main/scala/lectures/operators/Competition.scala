@@ -22,6 +22,7 @@ package lectures.operators
   * * "Победила дружба" в случае ничьи
   *
   * Для решения задачи раскомментируйте тело объекта Competition
+  * В целях упрощения можно поменять тип исходных данных
   */
 
 object Competition extends App {
