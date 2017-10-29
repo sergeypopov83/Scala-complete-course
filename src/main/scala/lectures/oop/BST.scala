@@ -86,7 +86,11 @@ object TreeTest extends App {
 
   // Generate huge tree
   val root: BST = BSTImpl(maxValue / 2)
-  val tree: BST = root // generator goes here
+  val tree: BST = (1 until nodesCount) // generator goes here
+    .map (_ => (Math.random() * maxValue).toInt)
+    .foldLeft(root) { (tree, value) =>
+      tree.add(value)
+    }
 
   // add marker items
   val testTree = tree.add(markerItem).add(markerItem2).add(markerItem3)
