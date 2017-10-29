@@ -13,8 +13,8 @@ package lectures.collections.comprehension
   * Во второй - количество курьеров, вышедших на работу.
   *
   * Ваша задача:
-  *  Изучить код и переписать его так,
-  *  что бы в нем не было ни одного цикла for, ни одной переменной или мутабильной коллекции
+  * Изучить код и переписать его так,
+  * что бы в нем не было ни одного цикла for, ни одной переменной или мутабильной коллекции
   *
   * Для этого используйте функции комбинаторы: filter, withFilter, fold, map, flatMap и т.д.
   *
@@ -51,15 +51,13 @@ object CouriersWithComprehension extends App {
 
   // какие адреса были обслужены
   def serveAddresses(addresses: List[Address], couriers: List[Courier]) = {
-    val goodCouriersCanServe = couriers
-      .zip((1 to couriers.size)
-      .map(_ => traffic().degree))
-      .collect {
-        case (courier, trafficDegree) if trafficDegree < 5 =>
-          courier.canServe
-      }
+    val goodCouriers = couriers.filter { _ =>
+      traffic().degree < 5
+    }
 
-    val countServedAddresses = goodCouriersCanServe.sum
+    val countServedAddresses = goodCouriers.map { courier =>
+      courier.canServe
+    }.sum
 
     addresses.take(countServedAddresses)
   }
