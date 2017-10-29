@@ -1,5 +1,7 @@
 package lectures.oop
 
+import scala.annotation.tailrec
+
 
 /**
   * BSTImpl - это бинарное дерево поиска, содержащее только значения типа Int
@@ -32,17 +34,34 @@ trait BST {
   def find(value: Int): Option[BST]
 }
 
+object BSTImpl {
+  private def addInner(treeOpt: Option[BSTImpl], newVal: Int): BSTImpl = treeOpt match {
+    case None => BSTImpl(newVal)
+    case Some(tree) =>
+      if (newVal == tree.value) tree
+      else if (newVal < tree.value)
+        BSTImpl(tree.value, Some(addInner(tree.left, newVal)), tree.right)
+      else
+        BSTImpl(tree.value, tree.left, Some(addInner(tree.right, newVal)))
+  }
+}
+
 case class BSTImpl(value: Int,
                    left: Option[BSTImpl] = None,
                    right: Option[BSTImpl] = None) extends BST {
+  import BSTImpl._
 
-  def add(newValue: Int): BST = ???
+  def add(newValue: Int): BST = {
+    //из-за того, что по условию нельзя изменить на add():BSTImpl
+    addInner(Some(this), newValue)
+  }
 
   def find(value: Int): Option[BST] = ???
 
   // override def toString() = ???
 
 }
+
 
 object TreeTest extends App {
 
@@ -56,15 +75,15 @@ object TreeTest extends App {
 
   // Generate huge tree
   val root: BST = BSTImpl(maxValue / 2)
-  val tree: BST = ??? // generator goes here
+  val tree: BST = root // generator goes here
 
   // add marker items
   val testTree = tree.add(markerItem).add(markerItem2).add(markerItem3)
 
-  // check that search is correct
-  require(testTree.find(markerItem).isDefined)
-  require(testTree.find(markerItem).isDefined)
-  require(testTree.find(markerItem).isDefined)
+//  // check that search is correct
+//  require(testTree.find(markerItem).isDefined)
+//  require(testTree.find(markerItem).isDefined)
+//  require(testTree.find(markerItem).isDefined)
 
   println(testTree)
 }
