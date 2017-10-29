@@ -56,7 +56,18 @@ case class BSTImpl(value: Int,
     addInner(Some(this), newValue)
   }
 
-  def find(value: Int): Option[BST] = ???
+  def find(value: Int): Option[BST] = {
+    if(value == this.value) Some(this)
+    else {
+      val leaf =
+        if (value < this.value) this.left
+        else this.right
+      leaf match {
+        case None => None
+        case Some(tree) => tree.find(value)
+      }
+    }
+  }
 
   // override def toString() = ???
 
@@ -81,9 +92,9 @@ object TreeTest extends App {
   val testTree = tree.add(markerItem).add(markerItem2).add(markerItem3)
 
 //  // check that search is correct
-//  require(testTree.find(markerItem).isDefined)
-//  require(testTree.find(markerItem).isDefined)
-//  require(testTree.find(markerItem).isDefined)
+  require(testTree.find(markerItem).isDefined)
+  require(testTree.find(markerItem).isDefined)
+  require(testTree.find(markerItem).isDefined)
 
   println(testTree)
 }
