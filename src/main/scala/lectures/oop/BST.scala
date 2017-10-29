@@ -51,6 +51,18 @@ case class BSTImpl(value: Int,
                    right: Option[BSTImpl] = None) extends BST {
   import BSTImpl._
 
+//  def add(newValue: Int): BST = {
+//    if (newValue == value) this
+//    else {
+//      if (newValue < value){
+//        left match {
+//          case None => BSTImpl(value, Some(BSTImpl (newValue)), right)
+//          case Some(tree) => BSTImpl(value, Some(tree.add(newValue)), right)// <=== тут надо BSTImpl
+//        }
+//      }
+//    }
+//  }
+
   def add(newValue: Int): BST = {
     //из-за того, что по условию нельзя изменить на add():BSTImpl
     addInner(Some(this), newValue)
@@ -69,7 +81,20 @@ case class BSTImpl(value: Int,
     }
   }
 
-  // override def toString() = ???
+  override def toString() = {
+
+
+  }
+
+  private def dfs(level: Int): Int = {
+    (left, right) match {
+      case (None, None) => level
+      case (Some(lTree), None) => lTree.dfs(level + 1)
+      case (None, Some(rTree)) => rTree.dfs(level + 1)
+      case (Some(l), Some(r)) =>
+        Math.max(l.dfs(level + 1), r.dfs(level + 1))
+    }
+  }
 
 }
 
