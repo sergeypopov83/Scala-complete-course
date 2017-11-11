@@ -121,17 +121,20 @@ case class BSTImpl(value: Int,
     val (curLevel, curPos) = getLevelPositionByNum(qNode.num)
     val numOfNodes = Math.pow(2,curLevel-1).toInt
     val interval = (numOfLeaves - numOfNodes)*nodeWidth/numOfNodes
-    val resultString1 =
+    val (resultString1, lastPos1) =
       if (curLevel > lastLevel) {
-        val lastPos1 = lastPos -1;
-        resultString + "\n%2d:".format(curLevel) + emptyStr(interval / 2)
-    } else resultString + strToWriteInThisLevel
+        (resultString + "\n%2d:".format(curLevel) + emptyStr(interval / 2),
+          -1)
+      } else {
+        (resultString + strToWriteInThisLevel, lastPos)
+      }
 
     val resultString2 = resultString1 + (emptyStr(nodeWidth, "_")
-      + emptyStr(interval))*(curPos - lastPos - 1) + iToS(qNode.node.value)
-    val strToWriteInNextLevel1 = emptyStr(interval)
+      + emptyStr(interval))*(curPos - lastPos1 - 1) + iToS(qNode.node.value)
+    val strToWriteInThisLevel1 = emptyStr(interval)
 
-    val lastPos1 = curPos
+    //println(s" > curPos = $curPos, curLev = $curLevel, val = ${qNode.node.value}")
+    val lastPos2 = curPos
     val lastLevel1 = curLevel
 
     val qu2 = qNode.node.left match {
@@ -144,9 +147,9 @@ case class BSTImpl(value: Int,
       case _ => qu2
     }
     if (qu3.isEmpty)
-      resultString
+      resultString2
     else
-      recoursiveToString(resultString2, qu3, lastLevel1, lastPos1, numOfLeaves, strToWriteInNextLevel1)
+      recoursiveToString(resultString2, qu3, lastLevel1, lastPos2, numOfLeaves, strToWriteInThisLevel1)
   }
 
 
