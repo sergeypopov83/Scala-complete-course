@@ -1,7 +1,7 @@
 package lectures.oop
 
 import scala.annotation.tailrec
-import scala.collection.mutable
+import scala.collection.immutable.Queue
 
 
 /**
@@ -96,7 +96,62 @@ case class BSTImpl(value: Int,
     }
   }
 
+
+  private case class NodeInQueue(node: BSTImpl, num: Int)
   override def toString(): String = {
+    val depth = this.dfs(1)
+    val resultString = s"Binary tree (depth = ):\n"
+    val numOfLeaves = Math.pow(2,depth-1).toInt
+    val qu = Queue(NodeInQueue(this, 1))
+    val lastLevel = 0
+    val lastPos = 0
+    val strToWriteInThisLevel = "";
+    recoursiveToString(resultString, qu, lastLevel, lastPos, numOfLeaves, strToWriteInThisLevel)
+  }
+
+
+  private def recoursiveToString(resultString: String,
+                                 qu: Queue[NodeInQueue],
+                                 lastLevel: Int,
+                                 lastPos: Int,
+                                 numOfLeaves: Int,
+                                 strToWriteInThisLevel: String
+                                ): String = {
+    val (qNode, qu1) = qu.dequeue
+    val (curLevel, curPos) = getLevelPositionByNum(qNode.num)
+    val numOfNodes = Math.pow(2,curLevel-1).toInt
+    val interval = (numOfLeaves - numOfNodes)*nodeWidth/numOfNodes
+    val resultString1 =
+      if (curLevel > lastLevel) {
+        val lastPos1 = lastPos -1;
+        resultString + "\n%2d:".format(curLevel) + emptyStr(interval / 2)
+    } else resultString + strToWriteInThisLevel
+
+  //      for (i <- 1 until (curPos - lastPos))
+  //        resultString += emptyStr(nodeWidth, "_") + emptyStr(interval)
+    val resultString2 = resultString1 + (emptyStr(nodeWidth, "_")
+      + emptyStr(interval))*(curPos - lastPos - 1) + iToS(qNode.node.value)
+    val strToWriteInNextLevel1 = emptyStr(interval)
+
+    val lastPos1 = curPos
+    val lastLevel1 = curLevel
+
+    val qu2 = qNode.node.left match {
+      case Some(tree) => qu1.enqueue(NodeInQueue(tree, qNode.num * 2))
+      case _ => qu1
+    }
+
+    val qu3 = qNode.node.right match {
+      case Some(tree) => qu2.enqueue(NodeInQueue(tree, qNode.num * 2 + 1))
+      case _ => qu2
+    }
+    if (qu3.isEmpty)
+      resultString
+    else
+      recoursiveToString(resultString2, qu3, lastLevel1, lastPos1, numOfLeaves, strToWriteInNextLevel1)
+  }
+
+  /*def badToString(): String = {
     case class NodeInQueue(node: BSTImpl, num: Int)
     val depth = this.dfs(1)
     val numOfLeaves = Math.pow(2,depth-1).toInt
@@ -118,7 +173,7 @@ case class BSTImpl(value: Int,
       } else resultString += strToWriteInThisLevel
 
       for (i <- 1 until (curPos - lastPos))
-      resultString += emptyStr(nodeWidth, "_") + emptyStr(interval)
+        resultString += emptyStr(nodeWidth, "_") + emptyStr(interval)
       resultString += iToS(qNode.node.value)
       strToWriteInThisLevel = emptyStr(interval)
 
@@ -136,7 +191,7 @@ case class BSTImpl(value: Int,
       }
     }
     resultString
-  }
+  }*/
 
   private def dfs(level: Int): Int = {
     (left, right) match {
