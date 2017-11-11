@@ -48,7 +48,7 @@ object BSTImpl {
   }
   private val nodeWidth = 8
 
-  private def emptyStr(n: Int, s: String = "."): String = (1 to n).map (_ => s).mkString("")
+  private def emptyStr(n: Int, s: String = "."): String = s * n
 
   private def iToS(x: Int): String = s"[%${nodeWidth-2}d]".format(x)
 
