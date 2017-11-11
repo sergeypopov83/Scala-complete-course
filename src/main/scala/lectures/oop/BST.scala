@@ -92,10 +92,7 @@ case class BSTImpl(value: Int,
       val leaf =
         if (value < this.value) this.left
         else this.right
-      leaf match {
-        case None => None
-        case Some(tree) => tree.find(value)
-      }
+      leaf.flatMap(_.find(value))
     }
   }
 
