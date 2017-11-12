@@ -13,7 +13,7 @@ git commit -m 'Very impotant commit'
 Перечитав комментарий, вы вдруг обнаруживаете опечатку в слове `important`. Напишите внизу команду, которая исправит это досадное недоразумение:
 
 ```
-Write your solution here
+git commit --amend -m "Very important commit"
 ```
 
 ### 2. Восстанавливаем наглядность
@@ -31,7 +31,8 @@ git commit -a --amend
 Тут вы понимаете, что зря вы все объединили в один коммит и надо бы их все-таки разбить на два коммита. Напишите команды, которые это исправят:
 
 ```
-Write your solution here
+git reset --soft HEAD@{1}
+git commit -m "Second important commit"
 ```
 
 ### 3. Жонглируем коммитами
