@@ -71,7 +71,8 @@ git add fileA.txt && git commit -m 'Commited Bivaliy'
 Тут вы понимаете, что незачем разбивать эту знаменитую троицу на три разных коммита, да и длинная история вам ни к чему. Поэтому надо их всех соединить в один коммит с комментарием `Samogonshiki`. Ваши действия:
 
 ```
-Write your solution here
+git reset --soft HEAD~3
+git commit -m "Samogonshiki"
 ```
 
 ### 5. Финальный босс
