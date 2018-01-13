@@ -22,32 +22,32 @@ package lectures.oop
   * * * * содержимое FishermansApp менять нельзя
   **/
 trait PartD {
-  def str(x: Int): String = "D"
+  def str = "D"
 }
 
-trait PartY extends PartD{
-  override def str(x: Int) =
-    "Y" + super.str(x)
+trait PartY
+  extends PartD{
+  override def str = "Y" + super.str
 }
 
 trait PartCH {
-  def str(): String = "CH"
+  def str = "CH"
 }
 
 trait PartK
   extends  PartCH {
-  override def str(): String =  super.str() + "K"
+  override def str =  super.str + "K"
 }
 
 class PartA
-  extends PartK
-    with PartY {
-  override def str(): String = super.str() + "A"
+  extends PartK {
+  override def str = super.str + "A"
 }
 
 class PartO
-  extends PartA {
-      override def str(): String = super.str(0) + "O" + super.str()
+  extends PartA
+    with PartY{
+  override def str = super[PartY].str + "O" + super[PartA].str
 }
 
 object FishermansApp extends App {
