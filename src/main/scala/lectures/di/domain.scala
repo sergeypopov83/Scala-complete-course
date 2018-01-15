@@ -26,9 +26,11 @@ trait ConnectionManager {
 }
 
 trait UserService {
+
   def userByCredentials(name: String, pwd: String): Option[User]
 
   def updateUserPwd(id: String, pwd: String): Unit
+
 }
 
 trait Configuration {
