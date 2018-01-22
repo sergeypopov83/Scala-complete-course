@@ -1,7 +1,5 @@
 package lectures.cat
 
-package lectures.cat
-
 import org.scalatest.{Matchers, Pending, WordSpec}
 import org.scalatest.mockito.MockitoSugar
 
