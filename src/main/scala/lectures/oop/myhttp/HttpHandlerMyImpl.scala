@@ -1,0 +1,67 @@
+package lectures.oop.myhttp
+
+import java.io.IOException
+import java.security.MessageDigest
+
+import lectures.oop.myservices.{DataBase, MailService}
+
+import scala.concurrent.Future
+
+
+class HttpHandlerMyImpl(db: DataBase, ms: MailService)
+  extends HttpHandler {
+
+  val MAX_FILE_SIZE = 8 * 1024 * 1024 //config.getInt("...")
+
+  def handle(route: HttpRoute, request: HttpRequest): Future[HttpResponse] = {
+    (route, request.method) match {
+      case (HttpRoute("/api/v1/uploadFile"), HttpMethods.Put) =>
+        request.getEntity
+          .map { entity =>
+            if (entity.length > MAX_FILE_SIZE) {
+              Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "File size should not be more than 8 MB"))
+            } else {
+              uploadFile(entity)
+            }
+          }.getOrElse(Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "Can not upload empty file")))
+      case _ =>
+        Future.successful(HttpResponse(HttpStatusCodes.NotFound, "Route not found"))
+    }
+  }.recover {
+    case e: IOException =>
+      HttpResponse(HttpStatusCodes.BadRequest, s"IOException: ${e.getMessage}")
+    case e: Throwable =>
+      HttpResponse(HttpStatusCodes.InternalServerError, s"Internal server Error: ${e.getMessage}")
+  }
+
+  private def uploadFile(entity: Array[Byte]): Future[HttpResponse] = {
+    Future {
+      val responseBuf = new StringBuilder()
+      val stringBody = new String(entity.filter(_ != '\r'))
+      val delimiter = stringBody.takeWhile(_ != '\n')
+      val files = stringBody.split(delimiter).drop(1)
+      files.foreach { file =>
+        val (name, body) = file.trim.splitAt(file.trim.indexOf('\n'))
+        val trimmedBody = body.trim
+        val extension = name.reverse.takeWhile(_ != '.').reverse
+        val id = hash(file.trim)
+        if (Seq("exe", "bat", "com", "sh").contains(extension)) {
+          throw new IOException("Request contains forbidden extension")
+        }
+        // Emulate file saving to disk
+        responseBuf.append(s"- saved file $name to " + id + "." + extension + s" (file size: ${trimmedBody.length})\n")
+
+        db.executePostgresQuery(s"insert into files (id, name, created_on) values ('$id', '$name', current_timestamp)")
+        ms.sendMessageToIbmMq(s"""<Event name="FileUpload"><Origin>SCALA_FTK_TASK</Origin><FileName>${name}</FileName></Event>""")
+        ms.send("admin@admin.tinkoff.ru", "File has been uploaded", s"Hey, we have got new file: $name")
+
+        HttpResponse(200, "Response:\n" + responseBuf.dropRight(1))
+      }
+    }
+  }
+
+  private def hash(s: String): String = {
+    MessageDigest.getInstance("SHA-1").digest(s.getBytes("UTF-8")).map("%02x".format(_)).mkString
+  }
+
+}
