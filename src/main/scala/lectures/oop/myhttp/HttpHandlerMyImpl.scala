@@ -12,27 +12,23 @@ import scala.concurrent.ExecutionContext.Implicits._
 class HttpHandlerMyImpl(db: DataBase, ms: MailService)
   extends HttpHandler {
 
-  val MAX_FILE_SIZE = 8 * 1024 * 1024 //config.getInt("...")
+  private val MAX_FILE_SIZE = 8 * 1024 * 1024 //config.getInt("...")
 
-  def handle(route: HttpRoute, request: HttpRequest): Future[HttpResponse] = {
-    (route, request.method) match {
-      case (HttpRoute("/api/v1/uploadFile"), HttpMethods.Put) =>
-        request.getEntity
-          .map { entity =>
-            if (entity.length > MAX_FILE_SIZE) {
-              Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "File size should not be more than 8 MB"))
-            } else {
-              uploadFile(entity)
-            }
-          }.getOrElse(Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "Can not upload empty file")))
-      case _ =>
-        Future.successful(HttpResponse(HttpStatusCodes.NotFound, "Route not found"))
-    }
-  }.recover {
-    case e: IOException =>
-      HttpResponse(HttpStatusCodes.BadRequest, s"IOException: ${e.getMessage}")
-    case e: Throwable =>
-      HttpResponse(HttpStatusCodes.InternalServerError, s"Internal server Error: ${e.getMessage}")
+  def handle(request: HttpRequest): Future[HttpResponse] = {
+    request.getEntity
+      .map { entity =>
+        if (entity.length > MAX_FILE_SIZE) {
+          Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "File size should not be more than 8 MB"))
+        } else {
+          uploadFile(entity)
+        }
+      }.getOrElse(Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "Can not upload empty file")))
+      .recover {
+        case e: IOException =>
+          HttpResponse(HttpStatusCodes.BadRequest, s"IOException: ${e.getMessage}")
+        case e: Throwable =>
+          HttpResponse(HttpStatusCodes.InternalServerError, s"Internal server Error: ${e.getMessage}")
+      }
   }
 
   private def uploadFile(entity: Array[Byte]): Future[HttpResponse] = {

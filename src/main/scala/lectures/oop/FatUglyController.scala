@@ -1,7 +1,7 @@
 package lectures.oop
 
-
-
+import lectures.oop.myhttp.HttpMethods
+import scala.concurrent.Future
 import lectures.oop.myhttp
 import lectures.oop.myservices.{DataBase, MailService}
 import lectures.oop.myhttp._
@@ -36,10 +36,12 @@ import scala.concurrent.duration._
 
 class FatUglyController(db: DataBase, mailService: MailService) {
 
-  private val handler = new HttpHandlerMyImpl(db, mailService)
-
   def processRoute(route: HttpRoute, request: HttpRequest): HttpResponse = {
-    val futureResult = handler.handle(route, request)
+    val futureResult = route match {
+      case HttpRoute(HttpMethods.Put, "/api/v1/uploadFile") =>
+        new HttpHandlerMyImpl(db, mailService).handle(request)
+      case _ =>
+        Future.successful(HttpResponse(HttpStatusCodes.NotFound, "Route not found"))
 
     Await.result(futureResult, 30 seconds)
   }
