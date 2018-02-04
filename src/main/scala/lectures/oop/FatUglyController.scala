@@ -38,14 +38,11 @@ class FatUglyController(db: DataBase, mailService: MailService) {
 
   def processRoute(route: HttpRoute, request: HttpRequest): HttpResponse = {
     val futureResult = route match {
-      case HttpRoute(HttpMethods.Put, "/api/v1/uploadFile") =>
+      case HttpRoute(HttpMethods.Post, "/api/v1/uploadFile") =>
         new HttpHandlerMyImpl(db, mailService).handle(request)
       case _ =>
         Future.successful(HttpResponse(HttpStatusCodes.NotFound, "Route not found"))
-
+    }
     Await.result(futureResult, 30 seconds)
   }
-
-
-
 }
