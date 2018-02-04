@@ -3,9 +3,14 @@ package lectures.oop
 import org.scalatest.{FlatSpec, Matchers}
 import lectures.oop.myhttp.{HttpMethods, HttpRequest, HttpResponse, HttpRoute}
 import lectures.oop.myservices.{DataBase, MailService}
+import org.scalatest.mockito.MockitoSugar
+import org.mockito.Mockito._
+import org.mockito.Matchers._
 
 
-class FatUglyControllerTest extends FlatSpec with Matchers {
+class FatUglyControllerTest extends FlatSpec
+  with Matchers
+  with MockitoSugar{
 
   val route = HttpRoute(HttpMethods.Post, "/api/v1/uploadFile")
 
@@ -19,7 +24,6 @@ class FatUglyControllerTest extends FlatSpec with Matchers {
       """.stripMargin
     val result = controller.processRoute(route, new HttpRequest(entity = Some(requestBody)))
     result.status shouldBe 200
-    println(result.entity)
     result.entity shouldBe
       """Response:
         |- saved file file1.txt to 063f83f94e59aac2edd719fab1d179f86084887a.txt (file size: 21)"""
@@ -36,7 +40,6 @@ class FatUglyControllerTest extends FlatSpec with Matchers {
         |This is body of file2!!
       """.stripMargin
     val result = controller.processRoute(route, new HttpRequest(entity = Some(requestBody)))
-    println(result.entity)
     result.status shouldBe 200
     result.entity shouldBe
       """Response:
@@ -59,14 +62,56 @@ class FatUglyControllerTest extends FlatSpec with Matchers {
     result.entity shouldBe "Can not upload empty file"
   }
 
-  ignore should "return 400 for forbidden extension" in {
-
+  it should "return 400 for forbidden extension" in {
+    val requestBody =
+      """DELIMITER
+        |file1.exe
+        |This is body of file1
+      """.stripMargin
+    val result = controller.processRoute(route, new HttpRequest(entity = Some(requestBody)))
+    result.status shouldBe 400
+    result.entity shouldBe "IOException: Request contains forbidden extension"
   }
 
-  ignore should "return 400 for file greater than 8 MB" in {
-
+  it should "return 400 for file greater than 8 MB" in {
+    val requestBody =
+      """DELIMITER
+        |file1.exe
+        |This is body of file1
+      """.stripMargin + "ballast8" * (1024 * 1024)
+    val result = controller.processRoute(route, new HttpRequest(entity = Some(requestBody)))
+    result.status shouldBe 400
+    result.entity shouldBe "File size should not be more than 8 MB"
   }
 
+  it should "send mails" in new mocks {
+    val controllerMock = new FatUglyController(fakeDB, fakeMailService)
+    val requestBody =
+      """DELIMITER
+        |file1.txt
+        |This is body of file1
+      """.stripMargin
+    val result = controllerMock.processRoute(route, new HttpRequest(entity = Some(requestBody)))
+    verify(fakeMailService).send("admin@admin.tinkoff.ru", "File has been uploaded", s"Hey, we have got new file: file1.txt")
+    verify(fakeMailService).sendMessageToIbmMq(contains("<FileName>file1.txt</FileName>"))
+  }
+
+
+  it should "save data in DB" in new mocks {
+    val controllerMock = new FatUglyController(fakeDB, fakeMailService)
+    val requestBody =
+      """DELIMITER
+        |file1.txt
+        |This is body of file1
+      """.stripMargin
+    val result = controllerMock.processRoute(route, new HttpRequest(entity = Some(requestBody)))
+    verify(fakeDB).executePostgresQuery(endsWith(" 'file1.txt', current_timestamp)"))
+  }
+
+  trait mocks {
+    val fakeMailService = mock[MailService]
+    val fakeDB = mock[DataBase]
+  }
   private val controller = new FatUglyController(new DataBase("some url"), new MailService)
 
 }
