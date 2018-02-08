@@ -1,7 +1,5 @@
 package lectures.cat
 
-package lectures.cat
-
 /**
   * Функтор реализует 2 функции
   * * * lift
