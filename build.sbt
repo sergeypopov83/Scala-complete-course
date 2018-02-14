@@ -51,4 +51,6 @@ libraryDependencies += "com.softwaremill.macwire" %% "util" % "2.3.0"
 
 libraryDependencies += "com.softwaremill.macwire" %% "proxy" % "2.3.0"
 
+libraryDependencies += "com.storm-enroute" %% "scalameter" % "0.9"
+
 parallelExecution in ThisBuild := false
