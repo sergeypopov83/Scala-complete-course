@@ -11,6 +11,7 @@ scalacOptions := Seq(
   "-feature",
   "-unchecked",
   "-deprecation",
+  "-P:continuations:enable",
   "-target:jvm-1.8",
   "-Ymacro-debug-lite",
   "-language:experimental.macros")
@@ -20,6 +21,8 @@ resolvers ++= Seq(
   Resolver.url("jCenter", url("http://jcenter.bintray.com/")),
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"))
+
+libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.7"
 
 addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 
@@ -32,6 +35,8 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-MF"
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.7.2"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+
+libraryDependencies += "de.sciss" %% "coroutines-common" % "0.1.0"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5" % "test"
 
