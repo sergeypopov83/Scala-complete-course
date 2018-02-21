@@ -11,7 +11,6 @@ scalacOptions := Seq(
   "-feature",
   "-unchecked",
   "-deprecation",
-  "-P:continuations:enable",
   "-target:jvm-1.8",
   "-Ymacro-debug-lite",
   "-language:experimental.macros")
