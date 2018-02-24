@@ -21,6 +21,8 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snapshots"))
 
+libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.7"
+
 addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 
 libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.2"
@@ -32,6 +34,8 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-MF"
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.7.2"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+
+libraryDependencies += "de.sciss" %% "coroutines-common" % "0.1.0"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5" % "test"
 
@@ -50,5 +54,7 @@ libraryDependencies += "com.softwaremill.macwire" %% "macrosakka" % "2.3.0" % "p
 libraryDependencies += "com.softwaremill.macwire" %% "util" % "2.3.0"
 
 libraryDependencies += "com.softwaremill.macwire" %% "proxy" % "2.3.0"
+
+libraryDependencies += "com.storm-enroute" %% "scalameter" % "0.9"
 
 parallelExecution in ThisBuild := false
