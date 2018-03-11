@@ -3,13 +3,13 @@ package lectures.oop.myhttp
 import java.io.IOException
 import java.security.MessageDigest
 
-import lectures.oop.myservices.{DataBase, MailService}
+import lectures.oop.myservices.{DataBase, EsbService, MailService}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits._
 
 
-class HttpHandlerMyImpl(db: DataBase, ms: MailService)
+class HttpHandlerMyImpl(db: DataBase, ms: MailService, esb: EsbService)
   extends HttpHandler {
 
   private val MAX_FILE_SIZE = 8 * 1024 * 1024 //config.getInt("...")
@@ -49,7 +49,7 @@ class HttpHandlerMyImpl(db: DataBase, ms: MailService)
         responseBuf.append(s"- saved file $name to " + id + "." + extension + s" (file size: ${trimmedBody.length})\n")
 
         db.executePostgresQuery(s"insert into files (id, name, created_on) values ('$id', '$name', current_timestamp)")
-        ms.sendMessageToIbmMq(s"""<Event name="FileUpload"><Origin>SCALA_FTK_TASK</Origin><FileName>${name}</FileName></Event>""")
+        esb.sendMessageToIbmMq(s"""<Event name="FileUpload"><Origin>SCALA_FTK_TASK</Origin><FileName>${name}</FileName></Event>""")
         ms.send("admin@admin.tinkoff.ru", "File has been uploaded", s"Hey, we have got new file: $name")
       }
       HttpResponse(200, "Response:\n" + responseBuf.dropRight(1))

@@ -2,7 +2,7 @@ package lectures.oop
 
 import org.scalatest.{FlatSpec, Matchers}
 import lectures.oop.myhttp.{HttpMethods, HttpRequest, HttpResponse, HttpRoute}
-import lectures.oop.myservices.{DataBase, MailService}
+import lectures.oop.myservices.{DataBase, EsbService, IbmMqService, MailService}
 import org.scalatest.mockito.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.Matchers._
@@ -85,7 +85,7 @@ class FatUglyControllerTest extends FlatSpec
   }
 
   it should "send mails" in new mocks {
-    val controllerMock = new FatUglyController(fakeDB, fakeMailService)
+    val controllerMock = new FatUglyController(fakeDB, fakeMailService, fakeEsbService)
     val requestBody =
       """DELIMITER
         |file1.txt
@@ -93,12 +93,12 @@ class FatUglyControllerTest extends FlatSpec
       """.stripMargin
     val result = controllerMock.processRoute(route, new HttpRequest(entity = Some(requestBody)))
     verify(fakeMailService).send("admin@admin.tinkoff.ru", "File has been uploaded", s"Hey, we have got new file: file1.txt")
-    verify(fakeMailService).sendMessageToIbmMq(contains("<FileName>file1.txt</FileName>"))
+    verify(fakeEsbService).sendMessageToIbmMq(contains("<FileName>file1.txt</FileName>"))
   }
 
 
   it should "save data in DB" in new mocks {
-    val controllerMock = new FatUglyController(fakeDB, fakeMailService)
+    val controllerMock = new FatUglyController(fakeDB, fakeMailService, fakeEsbService)
     val requestBody =
       """DELIMITER
         |file1.txt
@@ -111,7 +111,8 @@ class FatUglyControllerTest extends FlatSpec
   trait mocks {
     val fakeMailService = mock[MailService]
     val fakeDB = mock[DataBase]
+    val fakeEsbService = mock[EsbService]
   }
-  private val controller = new FatUglyController(new DataBase("some url"), new MailService)
+  private val controller = new FatUglyController(new DataBase("some url"), new MailService, new IbmMqService)
 
 }
