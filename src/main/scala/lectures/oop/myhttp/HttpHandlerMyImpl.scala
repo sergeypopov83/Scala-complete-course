@@ -34,13 +34,9 @@ class HttpHandlerMyImpl(db: DataBase, ms: MailService, esb: EsbService)
   private def uploadFile(entity: Array[Byte]): Future[HttpResponse] = {
     Future {
       val responseBuf = new StringBuilder()
-      val stringBody = new String(entity.filter(_ != '\r'))
-      val delimiter = stringBody.takeWhile(_ != '\n')
-      val files = stringBody.split(delimiter).drop(1)
+      val files = collectFilesFromEntity(entity)
       files.foreach { file =>
-        val (name, body) = file.trim.splitAt(file.trim.indexOf('\n'))
-        val trimmedBody = body.trim
-        val extension = name.reverse.takeWhile(_ != '.').reverse
+        val (name, trimmedBody, extension) = splitFile(file)
         val id = hash(file.trim)
         if (Seq("exe", "bat", "com", "sh").contains(extension)) {
           throw new IOException("Request contains forbidden extension")
@@ -58,6 +54,19 @@ class HttpHandlerMyImpl(db: DataBase, ms: MailService, esb: EsbService)
 
   private def hash(s: String): String = {
     MessageDigest.getInstance("SHA-1").digest(s.getBytes("UTF-8")).map("%02x".format(_)).mkString
+  }
+
+  private def collectFilesFromEntity(entity: Array[Byte]) = {
+    val stringBody = new String(entity.filter(_ != '\r'))
+    val delimiter = stringBody.takeWhile(_ != '\n')
+    stringBody.split(delimiter).drop(1)
+  }
+
+  private def splitFile(file: String) = {
+    val (name, body) = file.trim.splitAt(file.trim.indexOf('\n'))
+    val trimmedBody = body.trim
+    val extension = name.reverse.takeWhile(_ != '.').reverse
+    (name, trimmedBody, extension)
   }
 
 }
