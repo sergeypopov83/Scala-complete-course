@@ -12,13 +12,14 @@ import scala.concurrent.ExecutionContext.Implicits._
 class HttpHandlerMyImpl(db: DataBase, ms: MailService, esb: EsbService)
   extends HttpHandler {
 
-  private val MAX_FILE_SIZE = 8 * 1024 * 1024 //config.getInt("...")
+  private val mega = 1024 * 1024
+  private val MAX_FILE_SIZE = 8 //config.getInt("...")
 
   def handle(request: HttpRequest): Future[HttpResponse] = {
     request.getEntity
       .map { entity =>
-        if (entity.length > MAX_FILE_SIZE) {
-          Future.successful(HttpResponse(HttpStatusCodes.BadRequest, "File size should not be more than 8 MB"))
+        if (entity.length > MAX_FILE_SIZE * mega) {
+          Future.successful(HttpResponse(HttpStatusCodes.BadRequest, s"File size should not be more than $MAX_FILE_SIZE MB"))
         } else {
           uploadFile(entity)
         }
