@@ -23,8 +23,8 @@ class GoodService extends SecondService with FirstService
 object RunService extends App {
 
   // This service would throw NUll Pointer exception
-  //  val nullService  = new NullService
-  //  print(nullService.dep.value)
+ //    val nullService  = new NullService
+ //    print(nullService.dep.value)
 
   // But this service wouldn't
   val goodService = new GoodService

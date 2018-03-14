@@ -20,7 +20,7 @@ trait UserDb extends Database {
   def getUser = executeAnySql
 }
 
-trait EmailService extends UserDb {
+trait UserEmailService extends UserDb {
   def sendEmail = {
     getUser
     ???

@@ -31,7 +31,6 @@ object ReaderTOption {
 
 object ConnectionManagerMonadic {
   def connection: Reader[UserServiceProgramDeps, ConnectionManager] = ???
-
 }
 
 object ConfigurationMonadic {
