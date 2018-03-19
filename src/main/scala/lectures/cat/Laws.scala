@@ -48,6 +48,6 @@ class KleisliCategoryLaws() {
     */
   def compositionLaw[A, B, C, D](a: KleisliL[Option, A, B],
                      b: KleisliL[Option, B, C],
-                     c: KleisliL[Option, C, D]) = ???
+                     c: KleisliL[Option, C, D]): Nothing = ???
 
 }
