@@ -10,7 +10,7 @@ import scala.collection.mutable
 class MacWireProgramDependency(val connection: Connection) {
   import com.softwaremill.macwire._
 
-  val configurationMap: mutable.Map[String, String] = mutable.Map("user" -> "Frosya", "password" -> "qwerty3")
+  val configurationMap: mutable.Map[String, String]= mutable.Map("user" -> "Frosya", "password" -> "qwerty3")
   lazy val configuration = wire[ConfigurationImpl]
 
   lazy val userService = wire[UserServiceImpl]
