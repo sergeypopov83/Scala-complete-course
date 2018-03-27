@@ -19,6 +19,12 @@ class SeqWriterTOpsTest extends WordSpec with Matchers {
     override def combine(x: Seq[T], y: Seq[T]): Seq[T] = x ++ y
   }
 
+  implicit def strMonoid: cats.Monoid[String] = new CatsMonoid[String] {
+    override def empty: String = ""
+
+    override def combine(x: String, y: String): String = x + y
+  }
+
   implicit val sa: CatsApplicative[Seq] = new CatsApplicative[Seq] {
     override def pure[A](x: A): Seq[A] = Seq(x)
 
@@ -40,5 +46,12 @@ class SeqWriterTOpsTest extends WordSpec with Matchers {
     r shouldBe Seq(3, 4, 4)
 
   }
+  "WriterT is good in collectinng monoidal L values" in {
 
+    val str = logActions
+    str.split("\n").last shouldBe "Number are equal"
+
+    print(str)
+
+  }
 }
