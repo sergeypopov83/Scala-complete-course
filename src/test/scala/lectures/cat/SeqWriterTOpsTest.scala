@@ -1,10 +1,24 @@
 package lectures.cat
 
+import cats.data.{Writer, WriterT}
 import org.scalatest.{Matchers, WordSpec}
 import lectures.cat.WriterTOps._
-import cats.{FlatMap, Applicative => CatsApplicative, Monoid => CatsMonoid}
+import cats.{FlatMap, Id, Applicative => CatsApplicative, Monoid => CatsMonoid}
 
+import scala.util.Random
 
+// класс хранящий метрики выполнения программы
+case class Metrics(cnt: Int = 0, log: String = "")
+
+/**
+  * Реализуйте последний тест в классе SeqWriterTOpsTest
+  * Дан класс Metrics, сдежащий поля
+  * * * * cnt - счетчик
+  * * * * log  - текстовый лог
+  * Ваша задача создасть инсанс Writer и вызвать n раз flatMap с методом next,
+  * таким образом, что после выполнения всех операций в результате Metrics.cnt содержал число n
+  *
+  */
 class SeqWriterTOpsTest extends WordSpec with Matchers {
 
   implicit val im: cats.Monoid[Int] = new CatsMonoid[Int] {
@@ -52,6 +66,19 @@ class SeqWriterTOpsTest extends WordSpec with Matchers {
     str.split("\n").last shouldBe "Number are equal"
 
     print(str)
+  }
 
+  /*
+   * Замените знаки вопроса реализацией так, что бы тест прошел
+   */
+  "WriterT would count how many times combie would be executed" in {
+    val n = Random.nextInt(100)
+    val next = (v: Int) => {
+      Writer(Metrics(0, s"next value is $v"), v)
+    }
+   val result: Writer[Metrics, Int] = ???
+
+   n shouldBe result.written.cnt
   }
 }
+

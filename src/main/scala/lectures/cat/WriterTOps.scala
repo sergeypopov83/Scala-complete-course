@@ -3,11 +3,7 @@ package lectures.cat
 import cats.data.{Writer, WriterT}
 import cats.{FlatMap, Id, Applicative => CatsApplicative, Monoid => CatsMonoid}
 
-/**
-  *
-  */
 object WriterTOps {
-
 
   private val action1 = (i: Int) => Writer[String, (Double, Int)](s"Pow initial number $i\n", (Math.pow(i, 2), i))
   private val action2 = (tpl: (Double, Int)) => Writer[String, (Double, Int)](s"SQRT powed number ${tpl._1}\n", (Math.sqrt(tpl._1), tpl._2))
