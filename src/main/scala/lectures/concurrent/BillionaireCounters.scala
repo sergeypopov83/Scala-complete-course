@@ -17,7 +17,6 @@ import java.util.concurrent.Executors
   * несколько решений и выпишем сюда время их работы на вашей машине:
   *
   * - SimpleBillionaireCounter        - ??? мс
-  * - LockingBillionaireCounter       - ??? мс
   * - AtomicBillionaireCounter        - ??? мс
   * - ExtremelyFastBillionaireCounter - ??? мс
   *
