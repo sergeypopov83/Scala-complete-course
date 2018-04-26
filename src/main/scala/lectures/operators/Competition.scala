@@ -25,23 +25,32 @@ package lectures.operators
   * В целях упрощения можно поменять тип исходных данных
   */
 
-object Competition extends App {
+object Competition  {
 
-  val locals = Map("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> "2", "Alexander" -> 4D)
+  val locals = Map[String, Int]("Artem" -> 6, "Sergey" -> 5, "Anton" -> 2, "Vladimir" -> 2, "Alexander" -> 4)
+
   val foreigners = Map[String, Int]("John" -> 3, "James" -> 1, "Tom" -> 2, "Dick" -> 5, "Eric" -> 6)
 
-  //  val results = for (l <- locals;
-  //                     ???) {
-  //    val localName = l._1
-  //    val localValue = l._2
-  //    ???
-  //  }
+  val results = for (l <- locals;
+                     f <- foreigners) yield {
+    val localName = l._1
+    val localValue = l._2
+    val foreignName = f._1
+    val foreignValue: Int = f._2
+    (localName+" vs "+foreignName) -> (localValue - foreignValue)
+  }
 
-  //  var finalResult = 0
-  //  for (r <- results) {
-  //    if (???) finalResult = finalResult + 1
-  //    else ???
-  //  }
+  val finalResult = results.map{x =>
+    if (x._2 > 0) 1
+    else if (x._2 == 0 ) 0
+    else -1
+  }.sum
 
-  print("Победила дружба")
+  def main (args: Array[String]): Unit ={
+    if (finalResult > 0)
+      print ("Наша взяла")
+    else if (finalResult == 0)
+      print("Победила дружба")
+    else print ("Продули")
+  }
 }
