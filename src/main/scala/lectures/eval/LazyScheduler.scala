@@ -27,7 +27,27 @@ object LazySchedulerView {
       */
     def lazySchedule(expirationTimeout: Long): SeqView[A, Seq[_]]  = {
       val i = c.instant().plusMillis(expirationTimeout)
-      ???
+      new SeqView[A, Seq[_]] {
+        private val seqView = f.view
+
+        private def isExceeded = c.instant() isAfter i
+
+        override def iterator =
+          if (isExceeded) Iterator.empty
+          else seqView.iterator
+
+        override protected def underlying =
+          if (isExceeded) Seq.empty[A]
+          else f
+
+        override def length =
+          if (isExceeded) 0
+          else seqView.length
+
+        override def apply(idx: Int) =
+          if (isExceeded) throw new IndexOutOfBoundsException(idx.toString)
+          else seqView.apply(idx)
+      }
     }
   }
 }
