@@ -1,8 +1,8 @@
 package lectures.types.lambda
 
-import lectures.types.lambda.Booleans.{FALSE, NOT, OR, TRUE}
+import lectures.types.lambda.Booleans.{IF => _, _}
 import org.scalatest.{Matchers, Pending, WordSpec}
-import  BooleanSupplementary._
+import BooleanSupplementary._
 
 class TypelevelConditions extends WordSpec with Matchers {
 
@@ -14,15 +14,22 @@ class TypelevelConditions extends WordSpec with Matchers {
       }
       res shouldBe true
     }
-
     "and resolve to true" in {
+      val res = IF[AND[TRUE, TRUE]#v] {
+        print("blaaa")
+        true
+      }
+      res shouldBe true
+    }
+
+    "NOT[FALSE] resolve to true" in {
       //      val res = IF[NOT[FALSE]#v] {
       //        true
       //      }
       //      res shouldBe true
     }
 
-    "resole to false" in {
+    " OR resole to false" in {
       //      val res = IF[OR[FALSE, FALSE]#v] {
       //        true
       //      }

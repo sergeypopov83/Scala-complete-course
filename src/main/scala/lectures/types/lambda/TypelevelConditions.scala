@@ -69,7 +69,7 @@ object BooleanSupplementary {
     * @param t
     * @return
     */
-  implicit def envokeTruBranch(t: TRUE): TrueBranch = new TrueBranch
+  implicit def envokeTrueBranch(t: TRUE): TrueBranch = new TrueBranch
 
   /**
     * Если вычисленный логический тип == FALSE
