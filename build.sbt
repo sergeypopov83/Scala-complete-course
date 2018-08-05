@@ -29,13 +29,18 @@ libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.2"
 
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.2"
 
-libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.0-MF"
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.1.0"
+
+libraryDependencies += "org.typelevel" %% "cats-free" % "1.1.0"
+
+libraryDependencies += "org.typelevel" %% "cats-laws" % "1.1.0"
 
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.7.2"
-
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 
 libraryDependencies += "de.sciss" %% "coroutines-common" % "0.1.0"
+
+libraryDependencies += "org.typelevel" %% "cats-effect" % "1.0.0-RC2"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5" % "test"
 
