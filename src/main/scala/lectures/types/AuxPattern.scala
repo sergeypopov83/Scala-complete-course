@@ -5,10 +5,9 @@ package lectures.types
   * SeqTransformerWithAux
   *
   * Задание:
-  *
   * Реализуйте инстанс ValueTransformer, который совершает любую трансформацию над типом T по вашему выбору.
   * Напишите тест в AuxPatternTest.scala
-  * 
+  *
   */
 trait SeqTransformerWithAux {
   type G[_]
