@@ -33,15 +33,13 @@ object Fibonacci extends App {
   */
 object Fibonacci2 extends App {
 
-  def fibs2(num: Int) =
+  def fibs2(num: Int): Int =
     if (num <= 3) Array(1, 1, 2)(num - 1)
     else fibsImpl(num, Array(1, 1, 2))(num - 1)
 
   private def fibsImpl(num: Int, acc: Array[Int]): Array[Int] = {
     if (acc.length == num) acc
-    else {
-      fibsImpl(num, acc:+acc(acc.length - 1)+acc(acc.length-2))
-    }
+    else fibsImpl(num, acc :+ acc(acc.length - 1) + acc(acc.length - 2))
   }
 
   println(fibs2(16))
