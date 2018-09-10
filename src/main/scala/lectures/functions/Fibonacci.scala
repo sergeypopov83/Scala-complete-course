@@ -47,5 +47,25 @@ object Fibonacci2 extends App {
 }
 
 
+object Fibonacci3 extends App {
+
+  def fibs3(num: Int): Int = {
+    var window = Array(1, 1)
+
+    for (a <- 3 to num) {
+      window = Array(window(1), window(0)+window(1))
+    }
+
+    window(1)
+  }
+
+
+  println(fibs3(16))
+  //println(fibs(1000))
+}
+
+
+
+
 
 
