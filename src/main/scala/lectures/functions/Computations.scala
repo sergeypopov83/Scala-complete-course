@@ -69,7 +69,7 @@ object CurriedComputation extends App with Data {
 object FunctionalComputation extends App with Data {
 
   def functionalComputation(filterData: String): Array[String] => Array[String] = {
-    (dataArray: Array[String]) => {
+    dataArray: Array[String] => {
       dataArray.filter(dataItem =>filterData.split(" ").contains(dataItem))
     }
   }
