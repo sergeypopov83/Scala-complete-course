@@ -30,13 +30,20 @@ object Authentication extends App {
 
   import AuthenticationData._
 
-// val authByCard: PartialFunction[???, ???] = ???
+ val authByCard: PartialFunction[User, Option[User]] = {
+   case user:AnonymousUser => None
+   case user:CardUser if !registeredCards.contains(user.credentials) => None
+   case user:CardUser if registeredCards.contains(user.credentials) => Option(user)
+ }
 
-// val authByLP: PartialFunction[???, ???] = ???
+ val authByLP: PartialFunction[User, Option[User]] = {
+   case user:AnonymousUser => None
+   case user:LPUser if !registeredLoginAndPassword.contains(user.credentials) => None
+   case user:LPUser if registeredLoginAndPassword.contains(user.credentials) => Option(user)
 
-  val authenticated: List[Option[User]] = for (user <- testUsers) yield {
-    ???
-  }
+ }
+
+  val authenticated: List[Option[User]] = for (user <- testUsers) yield authByCard.orElse(authByLP)(user)
 
  authenticated.flatten foreach println
 

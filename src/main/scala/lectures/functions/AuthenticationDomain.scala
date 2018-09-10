@@ -58,15 +58,9 @@ object AuthenticationData {
   )
 
   val testUsers = List[User](
-    AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(),
-    AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(),
-    AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(), AnonymousUser(),
-    CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(),
-    CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(),
-    CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(), CardUser(),
-    LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(),
-    LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(),
-    LPUser(), LPUser(), LPUser(), LPUser(), LPUser(), LPUser(),
+
+    CardUser(),
+    LPUser(),
     LPUser(1234, authUserCreds), LPUser(4567, authUserCreds2),
     CardUser(4567, cardUserCreds), CardUser(45679, cardUserCreds2)
   )
