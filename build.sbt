@@ -4,7 +4,7 @@ name := "scala-course"
 
 version := "1.0"
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.6"
 
 scalacOptions := Seq(
   "-encoding", "utf8",
@@ -25,9 +25,9 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.7"
 
 addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 
-libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.2"
+libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.6"
 
-libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.2"
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.6"
 
 libraryDependencies += "org.typelevel" %% "cats-core" % "1.1.0"
 
