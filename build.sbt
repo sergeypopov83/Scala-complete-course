@@ -4,7 +4,7 @@ name := "scala-course"
 
 version := "1.0"
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.6"
 
 scalacOptions := Seq(
   "-encoding", "utf8",
@@ -14,6 +14,8 @@ scalacOptions := Seq(
   "-target:jvm-1.8",
   "-Ymacro-debug-lite",
   "-language:experimental.macros")
+
+resolvers += Resolver.sbtPluginRepo("releases")
 
 resolvers ++= Seq(
   Resolver.jcenterRepo,
