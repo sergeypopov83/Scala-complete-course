@@ -15,7 +15,7 @@ case class Metrics(cnt: Int = 0, log: String = "")
   * Дан класс Metrics, сдежащий поля
   * * * * cnt - счетчик
   * * * * log  - текстовый лог
-  * Ваша задача создасть инсанс Writer и вызвать n раз flatMap с методом next,
+  * Ваша задача создасть инстанс Writer и вызвать n раз flatMap с методом next,
   * таким образом, что после выполнения всех операций в результате Metrics.cnt содержал число n
   *
   */
@@ -60,18 +60,19 @@ class SeqWriterTOpsTest extends WordSpec with Matchers {
     r shouldBe Seq(3, 4, 4)
 
   }
-  "WriterT is good in collectinng monoidal L values" in {
+  "WriterT is good in collecting of monoidal L values" in {
 
-    val str = logActions
-    str.split("\n").last shouldBe "Number are equal"
+    val strWriter = logActions
 
-    print(str)
+    strWriter.split("\n").last shouldBe "Number are equal"
+
+    print(strWriter)
   }
 
   /*
    * Замените знаки вопроса реализацией так, что бы тест прошел
    */
-  "WriterT would count how many times combie would be executed" in {
+  "WriterT would count how many times combine would be executed" in {
     val n = Random.nextInt(100)
     val next = (v: Int) => {
       Writer(Metrics(0, s"next value is $v"), v)

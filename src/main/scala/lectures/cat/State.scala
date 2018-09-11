@@ -10,7 +10,7 @@ import scala.util.Random
 class StateStack {
   type Stack = List[Int]
 
-  val pop: State[Stack, Int] = State[Stack, Int] {
+  val pop: State[Stack, Int] = State[Stack, Int]{
     case Nil => (Nil, 0)
     case x :: xs => (xs, x)
   }
@@ -27,6 +27,9 @@ class StateStack {
 
 }
 
+/**
+  * StateForN -  генерирует случайное число и передает его в функцию
+  */
 class StateForN {
   case class FoldState[S, T](s: S, list: List[T])
   type SState = (Int, Int)

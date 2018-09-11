@@ -37,7 +37,7 @@ class SQLAPI(resource: String) {
 
   }
 
-  private def logParameter[T](prm: T): T  = ???
+  private def logParameter(prm: String): String  = ???
 
   val connection = (resource: String) => Connection(resource)
 
