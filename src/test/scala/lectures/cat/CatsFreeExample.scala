@@ -16,19 +16,19 @@ import scala.collection.mutable
   */
 object CatsKVStoreDomain {
 
-  sealed trait KVStoreA[A]
-  case class Put[T](key: String, value: T) extends KVStoreA[Unit]
-  case class Get[T](key: String) extends KVStoreA[Option[T]]
-  case class Delete(key: String) extends KVStoreA[Unit]
+  sealed trait KVStoreDomain[A]
+  case class Put[T](key: String, value: T) extends KVStoreDomain[Unit]
+  case class Get[T](key: String) extends KVStoreDomain[Option[T]]
+  case class Delete(key: String) extends KVStoreDomain[Unit]
 
-  type KVStore[A] = Free[KVStoreA, A]
+  type KVStore[A] = Free[KVStoreDomain, A]
   // Put returns nothing (i.e. Unit).
   def put[T](key: String, value: T): KVStore[Unit] =
-    liftF[KVStoreA, Unit](Put[T](key, value))
+    liftF[KVStoreDomain, Unit](Put[T](key, value))
 
   // Get returns a T value.
   def get[T](key: String): KVStore[Option[T]] =
-    liftF[KVStoreA, Option[T]](Get[T](key))
+    liftF[KVStoreDomain, Option[T]](Get[T](key))
 
   // Delete returns nothing (i.e. Unit).
   def delete(key: String): KVStore[Unit] =
@@ -51,13 +51,13 @@ object CatsKVStoreCompiler {
   import CatsKVStoreDomain._
   // the program will crash if a key is not found,
   // or if a type is incorrectly specified.
-  def impureCompiler: KVStoreA ~> Id  =
-  new (KVStoreA ~> Id) {
+  def impureCompiler: KVStoreDomain ~> Id  =
+  new (KVStoreDomain ~> Id) {
 
     // a very simple (and imprecise) key-value store
     val kvs = mutable.Map.empty[String, Any]
 
-    def apply[A](fa: KVStoreA[A]): Id[A] =
+    def apply[A](fa: KVStoreDomain[A]): Id[A] =
       fa match {
         case Put(key, value) =>
           println(s"put($key, $value)")
@@ -82,7 +82,7 @@ object CatsKVStoreProgram extends App {
   import CatsKVStoreDomain._
   import CatsKVStoreCompiler._
 
-  val program: Free[KVStoreA, Option[Int]] = for {
+  val program: Free[KVStoreDomain, Option[Int]] = for {
     _ <- put("wild-cats", 2)
     _ <- update[Int]("wild-cats", _ + 12)
     _ <- put("tame-cats", 5)

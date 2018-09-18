@@ -1,19 +1,36 @@
 package lectures.cat
 
+trait Result[T]
+case class Data[T](data: T) extends Result[T]
+case class Call[T](call: () => Result[T]) extends Result[T]
+
+/**
+  * Интерпретатор для трамплина
+  */
 object Result {
+
+  /**
+    * Функция выполняющая реурсию до конца
+    * @param t
+    * @tparam T
+    * @return
+    */
+
   def bounce[T](t: Result[T]): T = t match {
     case Data(d: T)=> d
     case c: Call[T] => bounce(c.call())
   }
 
+  /**
+    * Один шаг рекурсии
+    * @param c
+    * @tparam T
+    * @return
+    */
   def step[T](c: Call[T]): Result[T] = {
     c.call()
   }
 }
-
-trait Result[T]
-case class Data[T](data: T) extends Result[T]
-case class Call[T](call: () => Result[T]) extends Result[T]
 
 class Operations(val name: String)
 
