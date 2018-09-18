@@ -1,5 +1,7 @@
 package lectures.functions
 
+import lectures.functions.Fibonacci.fibs
+
 /**
   * Цель упражнения: вычислить 9 - е число Фибоначчи
   * Для этого раскомментируйте строчку в методе fibs и исправьте ошибку компиляции.
@@ -12,13 +14,15 @@ package lectures.functions
 object Fibonacci extends App {
 
   // Task 2
-  def fibs(num: Int) = {
+  def fibs(num: Int): Int = {
     if (num == 1) 1
-    if (num == 2) 1
-    //fibs(num - 1) + fibs(num - 2)
+    else if (num == 2) 1
+    else {
+      fibs(num - 1) + fibs(num - 2)
+    }
   }
 
-  println(fibs(9))
+  println(fibs(num = 9))
   //println(fibs(1000))
 }
 
@@ -38,9 +42,17 @@ object Fibonacci2 extends App {
     if (num <= 3) Array(1, 1, 2)(num - 1)
     else fibsImpl(num, Array(1, 1, 2))(num - 1)
 
-  private def fibsImpl(num: Int, acc: Array[Int]): Array[Int] = ???
+  private def fibsImpl(num: Int, acc: Array[Int]): Array[Int] = {
+    if (acc.size >= num)  acc// find last two numbers and add it to array
+    else{
+      val tmp = acc(acc.length-1) + acc(acc.length - 2)
+      val R: Array[Int] = acc :+ tmp
+        fibsImpl(num, R)
+    }
+      }
 
-  println(fibs2(16))
+
+  println(fibs2(5))
   //println(fibs(1000))
 }
 
