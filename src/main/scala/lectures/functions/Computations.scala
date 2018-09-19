@@ -12,10 +12,10 @@ import lectures.functions.Computation.filterData
   */
 trait Data {
   val filterData = "Клара у Карла украла корралы, Карл у Клары украл кларнет"
-  val dataArray = "Клара Цеткин обожала Карла Маркса".split(" ")
+  val dataArray: Array[String] = "Клара Цеткин обожала Карла Маркса".split(" ")
 }
 
-object Computation extends App with Data {
+object Computation extends Data {
 
   def computation(filterData: String, dataProducer: Array[String]): Array[String] = {
     //EMULATE HEAVY LOAD
@@ -29,7 +29,7 @@ object Computation extends App with Data {
     dataProducer.filter(dataItem => filterArray.contains(dataItem))
   }
 
-  val result = computation(filterData, dataArray)
+  val result: Array[String] = computation(filterData, dataArray)
   result.foreach(println)
 }
 
@@ -41,7 +41,7 @@ object Computation extends App with Data {
   *
   * Какой тип имеет partiallyAppliedCurriedFunction - ?
   */
-object CurriedComputation extends App with Data {
+object CurriedComputation extends Data {
 
   def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] = {
     //EMULATE HEAVY LOAD
@@ -55,10 +55,10 @@ object CurriedComputation extends App with Data {
     dataProducer.filter(dataItem => filterArray.contains(dataItem))
   }
 
-//  val partiallyAppliedCurriedFunction = curriedComputation(filterData)
-//
-//  val result = partiallyAppliedCurriedFunction(dataArray)
-//  result.foreach(println)
+  val partiallyAppliedCurriedFunction: Array[String] => Array[String] = curriedComputation(filterData)
+
+  val result = partiallyAppliedCurriedFunction(dataArray)
+  result.foreach(println)
 }
 
 /**
@@ -66,7 +66,7 @@ object CurriedComputation extends App with Data {
   *
   * При этом постарайтесь минимизировать количество разбиений строки filterData на отдельные слова.
   */
-object FunctionalComputation extends App with Data {
+object FunctionalComputation extends Data {
 
   def functionalComputation(filterData: String): Array[String] => Array[String] = {
     dataArray: Array[String] => dataArray.filter(dataItem =>filterData.split(" ").contains(dataItem))
@@ -74,7 +74,7 @@ object FunctionalComputation extends App with Data {
   }
 
 
-  val filterApplied = functionalComputation(filterData)
+  val filterApplied: Array[String] => Array[String] = functionalComputation(filterData)
 
   val result = filterApplied(dataArray)
   result.foreach(println)
