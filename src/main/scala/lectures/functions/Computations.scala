@@ -13,16 +13,14 @@ trait Data {
   val dataArray = "Клара Цеткин обожала Карла Маркса".split(" ")
 }
 
-object Computation extends App with Data {
+object Computation extends Data {
 
   def computation(filterData: String, dataProducer: Array[String]): Array[String] = {
     //EMULATE HEAVY LOAD
-    Thread.sleep(10)
     //PRODUCE WORDS ARRAY FROM A STRING
     val filterArray = filterData.split(" ")
 
     //EMULATE HEAVY LOAD
-    Thread.sleep(100)
     // LEAVE ONLY EQUAL WORDS IN BOTH ARRAYS
     dataProducer.filter(dataItem => filterArray.contains(dataItem))
   }
@@ -39,14 +37,22 @@ object Computation extends App with Data {
   *
   * Какой тип имеет partiallyAppliedCurriedFunction - ?
   */
-object CurriedComputation extends App with Data {
+object CurriedComputation extends Data {
 
-  def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] = ???
+  def curriedComputation(filterData: String)(dataProducer: Array[String]): Array[String] = {
+    //EMULATE HEAVY LOAD
+    //PRODUCE WORDS ARRAY FROM A STRING
+    val filterArray = filterData.split(" ")
 
-  val partiallyAppliedCurriedFunction = ???
+    //EMULATE HEAVY LOAD
+    // LEAVE ONLY EQUAL WORDS IN BOTH ARRAYS
+    dataProducer.filter(dataItem => filterArray.contains(dataItem))
+  }
 
-  //val result = partiallyAppliedCurriedFunction(dataArray)
-  //result.foreach(println)
+  val partiallyAppliedCurriedFunction = (dataArray: Array[String]) => curriedComputation(filterData)(dataArray)
+
+  val result = partiallyAppliedCurriedFunction(dataArray)
+  result.foreach(println)
 }
 
 /**
@@ -54,12 +60,20 @@ object CurriedComputation extends App with Data {
   *
   * При этом постарайтесь минимизировать количество разбиений строки filterData на отдельные слова.
   */
-object FunctionalComputation extends App with Data {
+object FunctionalComputation extends Data {
 
-  def functionalComputation(filterData: String): (Array[String]) => Array[String] = ???
+  def functionalComputation(filterData: String): (Array[String]) => Array[String] = { dataProducer: Array[String] =>
+    //EMULATE HEAVY LOAD
+    //PRODUCE WORDS ARRAY FROM A STRING
+    def filterArray = (data: String) => data.split(" ")
 
-  val filterApplied = functionalComputation(???)
+    //EMULATE HEAVY LOAD
+    // LEAVE ONLY EQUAL WORDS IN BOTH ARRAYS
+    dataProducer.filter(dataItem => filterArray(filterData).contains(dataItem))
+  }
 
-  val result = filterApplied(???)
+  val filterApplied = (data: String) => functionalComputation(data)(dataArray)
+
+  val result = filterApplied(filterData)
   result.foreach(println)
 }
