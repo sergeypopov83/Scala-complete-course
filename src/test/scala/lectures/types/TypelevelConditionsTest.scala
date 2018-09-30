@@ -1,8 +1,8 @@
-package lectures.types.lambda
+package lectures.types
 
-import lectures.types.lambda.Booleans.{IF => _, _}
-import org.scalatest.{Matchers, Pending, WordSpec}
 import BooleanSupplementary._
+import Booleans.{IF => _, _}
+import org.scalatest.{Matchers, Pending, WordSpec}
 
 class TypelevelConditions extends WordSpec with Matchers {
 

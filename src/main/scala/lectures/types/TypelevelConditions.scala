@@ -1,6 +1,6 @@
-package lectures.types.lambda
+package lectures.types
 
-import lectures.types.lambda.Booleans.{FALSE, TRUE}
+import lectures.types.Booleans.{FALSE, TRUE}
 
 
 /**
