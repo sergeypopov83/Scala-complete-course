@@ -81,7 +81,7 @@ object SortingStuff extends App {
       case it:Watches if it.cost > 1000 => stuffBox.copy(watches = it :: stuffBox.watches)
       case it:Boots if it.brand == "Converse" || it.brand == "Adidas" => stuffBox.copy(boots = it :: stuffBox.boots)
       case it:Book if it.isInteresting => stuffBox.copy(books = it :: stuffBox.books)
-      case junk@_ => stuffBox.copy(junk = junk :: stuffBox.junk)
+      case junk => stuffBox.copy(junk = junk :: stuffBox.junk)
 
     }
 
