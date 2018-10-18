@@ -13,6 +13,11 @@ abstract class ToOptionProjector[F[_]] {
   def projectEither[A](va: I[A]): Option[A]
 }
 
+object TypeDefinitionExample {
+  type λ[α] = Either[α, Any]
+  ???
+}
+
 object LeftToOptionProjector extends ToOptionProjector[({type λ[α] = Either[α, _]})#λ] {
   def projectEither[A](va: I[A]): Option[A] = va match {
     case l: Left[A, _] => Option(l.value)

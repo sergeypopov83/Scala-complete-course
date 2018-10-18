@@ -7,17 +7,18 @@ package lectures.types
   */
 trait SeqTransformer {
   type G[_]
-  def transform[T](vals: T*): G[T]
+  def transform[T](vals: Seq[T]): G[T]
 }
 
 object SeqTransformer {
   def transform[T](vals: T*)(implicit tr: SeqTransformer): tr.G[T] =
-    tr.transform[T](vals: _*)
+    tr.transform[T](vals)
 }
 
-class SeqToVectorTransformer extends SeqTransformer {
-  override type G[_] = Vector[_]
+class SeqToVectorTransformer() extends SeqTransformer {
 
-  override def transform[T](vals: T*): G[T] = vals.toVector
+  override type G[A] = Vector[A]
+
+  override def transform[T](vals: Seq[T]): G[T] = vals.toVector
 }
 

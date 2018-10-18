@@ -2,7 +2,7 @@ package lectures.types
 
 import org.scalatest.{Matchers, WordSpec}
 
-class MethodDependentTypeTest extends WordSpec with Matchers{
+class SeqTransformerTest extends WordSpec with Matchers{
 
 
   "Result of seq convertion" should {
@@ -10,7 +10,7 @@ class MethodDependentTypeTest extends WordSpec with Matchers{
 
       implicit val tr = new SeqToVectorTransformer()
 
-      val vector = SeqTransformer.transform(1,2,3,4,5)
+      val vector: Vector[Int] = SeqTransformer.transform(1,2,3,4,5)
       vector.isInstanceOf[Vector[Int]] shouldBe true
 
     }

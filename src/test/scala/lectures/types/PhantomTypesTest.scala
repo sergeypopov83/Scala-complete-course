@@ -18,7 +18,7 @@ class PhantomTypesTest extends WordSpec{
 
        val sentCheck = checkProcessor.sendACheck(createdCheck)
 
-       //WONT'T COMPILE beacause there is no implicit found
+       //WONT'T COMPILE because there is no implicit found
        //checkProcessor.processStatus(sentCheck)
        val clearedCheck = checkProcessor.clearCheck(sentCheck)
        // WOULD PRINT `paycheck was cleared`
