@@ -23,12 +23,12 @@ trait ValueTransformer[T, G[_]] {
 }
 
 object SeqTransformerWithAux {
-  type Aux[G1[_]] = SeqTransformerWithAux{ type G[_] = G1[_]}
+  type Aux[G1[_]] = SeqTransformerWithAux{ type G[T] = G1[T]}
   def transform[T, G[_]](vals: T*)(implicit tr: SeqTransformerWithAux.Aux[G], valueTransformer: Option[ValueTransformer[T, G]] = None): tr.G[T] =
     tr.transform[T](vals: _*)
 }
 
 class SeqToVectorTransformerWithAux extends SeqTransformerWithAux{
-  type G[_] = Vector[_]
+  type G[T] = Vector[T]
   override def transform[T](vals: T*): G[T] = vals.toVector
 }

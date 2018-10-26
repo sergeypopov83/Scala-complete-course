@@ -12,7 +12,7 @@ scalacOptions := Seq(
   "-unchecked",
   "-deprecation",
   "-target:jvm-1.8",
-//  "-Ypartial-unification",
+  "-Ypartial-unification",
   "-Ymacro-debug-lite",
   "-language:experimental.macros")
 
