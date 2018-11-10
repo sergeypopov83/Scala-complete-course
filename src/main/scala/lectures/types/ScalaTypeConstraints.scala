@@ -4,10 +4,8 @@ import scala.reflect.runtime.universe._
 
 object ScalaTypeConstraints extends App{
 
-  class UnderscoreTypeBehaviour[G[_]]
   // Мы можем передать в UnderscoreTypeBehaviour любой тип формы * -> *
-  class UnderscoreTypeBehaviourSubClass extends UnderscoreTypeBehaviour[List] {}
-
+  abstract class UnderscoreTypeBehaviourSubClass extends UnderscoreTypeBehaviour[List]
   //Но не можем, например  (* -> *) -> *
   //Ни так
   //class UnderscoreTypeBehaviourSubClass2[A] extends UnderscoreTypeBehaviour[Either[_, A]] {}
@@ -17,7 +15,7 @@ object ScalaTypeConstraints extends App{
   def identityPrm[F[_], A](x:F[A])(implicit tt: TypeTag[F[A]], ta: TypeTag[A]): Unit = {
     println(ta.tpe.toString)
   }
-  //Спасибо PArtialUnification - это работает, но не так, как хотелось бы
+  //Спасибо PartialUnification - это работает, но не так, как хотелось бы
   val l: Either[Int, _] = Left(1)
   val r: Either[_, Int] = Right(1)
   identityPrm(r) // здесь тип будет Int
@@ -29,6 +27,6 @@ object ScalaTypeConstraints extends App{
   def compose(): UnderscoreTypeBehaviour[List] = ???
   // но он вернул просто *
   // и так тоже не сработает
-  def compose[G[_],F[_]](): UnderscoreTypeBehaviour[G[F]] = ???
+  //def compose[G[_],F[_]](): UnderscoreTypeBehaviour[G[F]] = ???
 
 }
