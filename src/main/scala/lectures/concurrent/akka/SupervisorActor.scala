@@ -23,7 +23,7 @@ class SupervisorActor(pingDelay: Long,
                       pongsToSwitch: Int,
                       setCountPrm: Int) extends Actor with ActorLogging {
 
-  override val supervisorStrategy = OneForOneStrategy() {
+  override val supervisorStrategy: OneForOneStrategy = OneForOneStrategy() {
     case p: PongerFailureException => Resume
     case _ => Stop
   }
