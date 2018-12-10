@@ -14,7 +14,7 @@ object DIDomain {
   type ReaderTOption[A, B] = Kleisli[Option, A, B]
 }
 
-object ReaderTOption {
+object ReaderTOptionObj {
 
   import DIDomain._
 
@@ -35,12 +35,12 @@ object ConnectionManagerMonadic {
 
 object ConfigurationMonadic {
   def attribute(attrName: String): ReaderTOption[UserServiceProgramDeps, String] =
-    ReaderTOption(attr => {
+    ReaderTOptionObj(attr => {
       attr.configuration.attribute(attrName)
     })
 }
 
 object UserServiceMonadic {
   def userByCred(name: String, pwd: String): ReaderTOption[UserServiceProgramDeps, User] =
-    ReaderTOption[UserServiceProgramDeps, User](usp => usp.us.userByCredentials(name, pwd))
+    ReaderTOptionObj[UserServiceProgramDeps, User](usp => usp.us.userByCredentials(name, pwd))
 }

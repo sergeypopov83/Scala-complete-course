@@ -30,6 +30,8 @@ libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.6"
 
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.6"
 
+libraryDependencies += "com.samskivert" % "jmustache" % "1.12"
+
 libraryDependencies += "org.typelevel" %% "cats-core" % "1.1.0"
 
 libraryDependencies += "org.typelevel" %% "cats-free" % "1.1.0"
