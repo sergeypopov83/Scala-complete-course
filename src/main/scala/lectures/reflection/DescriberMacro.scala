@@ -13,7 +13,7 @@ class DescriberMacro(val c: blackbox.Context) {
 
   private val templateStr =
     """
-      This {{cls}} has name {{clsName}}
+      This {{cls}} has a name {{clsName}}
       with a list of parents
       {{#parents}}
         {{parent}}
@@ -66,6 +66,7 @@ class DescriberMacro(val c: blackbox.Context) {
         else publicMembers)
     )
     val res = template.execute(dataMap.asJava)
-    c.Expr[String](Literal(Constant(res)))
+    c.Expr[String](q"$res")
+//    c.Expr[String](Literal(Constant(res)))
   }
 }

@@ -1,27 +1,23 @@
 package lectures.reflection
 
-import java.lang.reflect.Modifier
-
-import com.samskivert.mustache
-import com.samskivert.mustache.Mustache
-import lectures.di.reader.DIDomain.ReaderTOption
 import lectures.di.reader.ReaderTOptionObj
 import lectures.functions.{LPUser, User}
 import org.scalatest.{Matchers, WordSpec}
 
-import scala.collection.JavaConverters._
-import scala.reflect.runtime.{universe => ru}
 import scala.reflect.runtime._
-import ru._
-import scala.reflect.ClassTag
 
 class ScalaMacroExampleTest extends WordSpec with Matchers {
 
 
   "Macro from ScalaMacroExample" should {
-    "return scalar value" in {
+    "any macros can be parametrized" in {
+      val i: String = ScalaMacroExamples.scalaMacroT[String]("value")
+      i shouldBe null
+    }
+    "not obey types signatures if it's whitebox" in {
       val i: Int = ScalaMacroExamples.scalaMacro("value")
       i shouldBe 10
+
     }
     "depending on parameter" in {
       val value: Unit = ScalaMacroExamples.scalaMacro("value")
