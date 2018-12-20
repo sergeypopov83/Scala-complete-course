@@ -1,5 +1,7 @@
 package lectures.collections
 
+import scala.collection.mutable.{ListBuffer, ArrayBuffer}
+
 /**
   * Представим, что по какой-то причине Вам понадобилась своя обертка над списком целых чисел List[Int]
   *
@@ -17,12 +19,12 @@ package lectures.collections
   */
 object MyListImpl extends App {
 
-  case class MyList[T](data: List[T]) {
+  case class MyList[T, CollectionType <: Traversable[T]](data: Traversable[T]) {
 
-    def flatMap(f: T => MyList[T]): MyList[T] =
-      MyList(data.flatMap(inp => f(inp).data))
+    def flatMap(f: T => MyList[T, CollectionType]): MyList[T, CollectionType] =
+      MyList(data.flatMap(it => f(it).data))
 
-    def map(f: T => T): MyListImpl.MyList[T] =
+    def map(f: T => T): MyListImpl.MyList[T, CollectionType] =
       flatMap(it => MyList(List(f(it))))
 
     def foldLeft(acc: T)(f: ((T, T)) => T): T = data match {
@@ -30,15 +32,22 @@ object MyListImpl extends App {
       case _ => acc
     }
 
-    def filter(f: T => Boolean): MyListImpl.MyList[T] =
+    def filter(f: T => Boolean): MyListImpl.MyList[T, CollectionType] =
       flatMap(it => {
         if (f(it)) MyList(List(it)) else MyList(List.empty)
       })
+
   }
 
-  require(MyList(List(1, 2, 3, 4, 5, 6)).map(_ * 2).data == List(2, 4, 6, 8, 10, 12))
-  require(MyList(List(1, 2, 3, 4, 5, 6)).filter(_ % 2 == 0).data == List(2, 4, 6))
-  require(MyList(List(1, 2, 3, 4, 5, 6)).foldLeft(0)(tpl => tpl._1 + tpl._2) == 21)
-  require(MyList(Nil).foldLeft(0)(tpl => tpl._1 + tpl._2) == 0)
+  class MyListBuffer[T](inp: ListBuffer[T]) extends MyList[T, ListBuffer[T]](inp) {}
 
+  class MyIndexedList[T](inp: IndexedSeq[T]) extends MyList[T, IndexedSeq[T]](inp) {}
+
+  require(MyList[Int, List[Int]](List(1, 2, 3, 4, 5, 6)).map(p => p * 2).data == List(2, 4, 6, 8, 10, 12))
+  require(MyList[Long, ListBuffer[Long]](ListBuffer(1, 2, 3, 4, 5, 6)).filter(_ % 2 == 0).data == List(2, 4, 6))
+  require(MyList[Int, List[Int]](List(1, 2, 3, 4, 5, 6)).foldLeft(0)(tpl => tpl._1 + tpl._2) == 21)
+  require(MyList[Float, IndexedSeq[Float]](ArrayBuffer.empty[Float]).foldLeft(0)(tpl => tpl._1 + tpl._2) == 0)
+
+  require(new MyListBuffer[Long](ListBuffer(1, 2, 3, 4, 5, 6)).filter(_ % 2 == 0).data == List(2, 4, 6))
+  require(new MyIndexedList[Float](ArrayBuffer.empty[Float]).foldLeft(0)(tpl => tpl._1 + tpl._2) == 0)
 }
